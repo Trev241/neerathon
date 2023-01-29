@@ -1,9 +1,9 @@
 import Carousel from 'react-bootstrap/Carousel'
 import Image from 'react-bootstrap/Image'
 
-import carouselImage1 from './../assets/caro1.jpg'
-import carouselImage2 from './../assets/caro2.jpeg'
-import carouselImage3 from './../assets/caro3.jpeg'
+import carouselImage1 from './../assets/_DSC8157.jpg'
+import carouselImage2 from './../assets/_DSC7984.jpg'
+import carouselImage3 from './../assets/_DSC8065.jpg'
 
 function HomeCarousel() {
   return (
@@ -11,7 +11,7 @@ function HomeCarousel() {
       <Carousel.Item>
         <Image
           className="d-block w-100"
-          roundedCircle
+          // roundedCircle
           fluid
           src={carouselImage1}
           alt="First slide"
@@ -20,7 +20,7 @@ function HomeCarousel() {
       <Carousel.Item>
         <Image
           className="d-block w-100"
-          roundedCircle
+          // roundedCircle
           fluid
           src={carouselImage2}
           alt="Second slide"
@@ -29,7 +29,7 @@ function HomeCarousel() {
       <Carousel.Item>
         <Image
           className="d-block w-100"
-          roundedCircle
+          // roundedCircle
           fluid
           src={carouselImage3}
           alt="Third slide"
