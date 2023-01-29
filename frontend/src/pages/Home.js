@@ -3,17 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Image from 'react-bootstrap/Image'
-import Card from 'react-bootstrap/Card'
 import Button from 'react-bootstrap/Button'
 
 import Accordion from 'react-bootstrap/Accordion'
 
 import HomeCarousel from '../components/HomeCarousel'
 import Navigation from '../components/Navigation'
-
-import homeImage1 from './../assets/_DSC8131.jpg'
-import homeImage2 from './../assets/_DSC8153.jpg'
 
 import './Home.css'
 
@@ -23,12 +18,11 @@ function Home() {
   return (
     <>
       <Navigation />
-      
       <HomeCarousel />
-      <Container bsPrefix="container my-5">
+      <Container className="main px-5">
         <Row>
           <Col>
-            <h1 className="display-1">
+            <h1 className="display-1 mt-5">
               Neerathon 2023 is here!
             </h1>
             <p className="lead">
@@ -58,7 +52,7 @@ function Home() {
           </Col>
           <Col md>
             <div class="ratio ratio-16x9">
-              <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1PF05_9PTfu6AAQpWWz51os0SfMAUD4A&ehbc=2E312F"></iframe>
+              <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1PF05_9PTfu6AAQpWWz51os0SfMAUD4A&ehbc=2E312F" title="Neerathon Routes"></iframe>
             </div>
           </Col>
         </Row>

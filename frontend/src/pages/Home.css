@@ -18,3 +18,7 @@
 .separator:not(:empty)::after {
   margin-left: .75em;
 }
+
+.main {
+  background-color: white;
+}

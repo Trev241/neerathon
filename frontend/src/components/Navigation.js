@@ -9,7 +9,7 @@ function Navigation() {
   const navigate = useNavigate()
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
         <Navbar.Brand href="/">Neerathon</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -20,7 +20,7 @@ function Navigation() {
           </Nav>
           <Nav>
             {/* <Nav.Link href="#register">Participate</Nav.Link> */}
-            <Button onClick={() => navigate('/register')}>Participate</Button>
+            <Button variant="light" onClick={() => navigate('/register')}>Participate</Button>
           </Nav>
         </Navbar.Collapse>
       </Container>
