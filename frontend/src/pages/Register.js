@@ -74,7 +74,8 @@ function Register() {
             <Col>
               <FloatingLabel as={Col} controlId="floatingName" label="Full name">
                 <Form.Control 
-                  required type="text" 
+                  required 
+                  type="text" 
                   placeholder="Name" 
                   name="name" 
                   // value={form.name} 
@@ -134,6 +135,9 @@ function Register() {
                           fr.onload = () => updateForm({ josephiteDetails: { ...form.josephiteDetails, idAttachment: fr.result } })
                         }}
                       />
+                      <Form.Control.Feedback type="invalid">
+                        File upload limit exceeded!
+                      </Form.Control.Feedback>
                     </Form.Group>
                   </>
                 ) : <></>
@@ -143,21 +147,21 @@ function Register() {
 
           <Row className="mb-4">
             <Col>
-              <FloatingLabel controlId="floatingGender" label="Select your gender" className="mb-2">
+              <FloatingLabel controlId="floatingGender" label="Select your gender">
                 <Form.Select 
                   required 
                   aria-label="Floating label select gender" 
                   onChange={(e) => updateForm({ gender: e.target.value })}
                 >
-                  <option />
+                  <option/>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                   <option value="Other">Other</option>
                 </Form.Select>
               </FloatingLabel>
 
-              {
-                (form.gender !== "Male" && form.gender !== "Female" && form.gender !== "") ? (
+              {/* {
+                (form.gender === "Other") ? (
                   <FloatingLabel as={Col} controlId="floatingGenderOther" label="Please specify">
                     <Form.Control 
                       required 
@@ -167,7 +171,7 @@ function Register() {
                     />
                   </FloatingLabel>
                 ) : <></>
-              }
+              } */}
             </Col>
 
             <Col>
@@ -216,6 +220,9 @@ function Register() {
                     fr.onload = () => updateForm({ paymentAttachment: fr.result })}
                   }
                 />
+                <Form.Control.Feedback type="invalid">
+                  File upload limit exceeded!
+                </Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Row>
@@ -223,8 +230,9 @@ function Register() {
           <Row>
             <Col>
               <p className="text-muted">
-                After submitting the form, you will receive an email confirming that we have received it. If you have any trouble filling up the form please reach out to contact@example.com.
-                <b> Do not upload or fill any sensitive information that has not been asked for and that may compromise you. Neither the WACC, the University nor the developer of this site is responsible for any damages caused as a result.</b>
+                After submitting the form, you will receive an email. If you have any trouble filling up the form please reach out to contact@example.com.
+                <b> Do not upload or fill any sensitive information that has not been asked for and that may compromise you. Neither the WACC, the University 
+                nor the developer of this site is responsible for any damages caused as a result.</b>
               </p>
             </Col>
           </Row>
