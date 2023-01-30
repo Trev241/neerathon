@@ -13,6 +13,8 @@ function Register() {
   const [validated, setValidated] = useState(false)
   const [idSizeExceeded, setIdSizeExceeded] = useState(false)
   const [paySizeExceeded, setPaySizeExceeded] = useState(false)
+
+  const FILE_SIZE_LIMIT = 1048576
   
   const [form, setForm] = useState({
     name: "",
@@ -44,7 +46,6 @@ function Register() {
       event.preventDefault()
       event.stopPropagation()
     }
-
     setValidated(true)
 
     const newRegistration = { ...form }
@@ -78,6 +79,7 @@ function Register() {
                   type="text" 
                   placeholder="Name" 
                   name="name" 
+                  className="bg-white"
                   // value={form.name} 
                   onChange={(e) => updateForm({ name: e.target.value})} 
                 />
@@ -92,6 +94,7 @@ function Register() {
                   required type="email" 
                   placeholder="name@example.com" 
                   name="email" 
+                  className="bg-white"
                   // value={form.email} 
                   onChange={(e) => updateForm({ email: e.target.value})}
                 />
@@ -102,7 +105,7 @@ function Register() {
           <Row className="mb-4">
             <Col>
               <Form.Group className="mb-2" controlId="formJosephite">
-                <Form.Check 
+                <Form.Check
                   type="checkbox" 
                   label="I am currently a student of St. Joseph's University" 
                   onClick={(e) => updateForm({ isJosephite: e.target.checked })}
@@ -117,18 +120,20 @@ function Register() {
                         disabled={!form.isJosephite} 
                         type="text" 
                         placeholder="e.g. 20BCAA27"
+                        className="bg-white"
                         onChange={(e) => updateForm({ josephiteDetails: { ...form.josephiteDetails, id: e.target.value} })}
                       />
                     </FloatingLabel>
                     <Form.Group controlId="formId">
-                      <Form.Label>Upload student ID card (Limit: 512KB)</Form.Label>
+                      <Form.Label>Upload student ID card (Limit: 1 MB)</Form.Label>
                       <Form.Control 
                         required 
                         type="file" 
                         disabled={!form.isJosephite}
                         isInvalid={idSizeExceeded}
+                        className="bg-white"
                         onChange={(e) => {
-                          setIdSizeExceeded(e.target.files[0].size > 512)
+                          setIdSizeExceeded(e.target.files[0].size > FILE_SIZE_LIMIT)
 
                           const fr = new FileReader()
                           fr.readAsDataURL(e.target.files[0])
@@ -136,7 +141,9 @@ function Register() {
                         }}
                       />
                       <Form.Control.Feedback type="invalid">
-                        File upload limit exceeded!
+                        {
+                          (idSizeExceeded) ? "File upload limit exceeded!" : "Error"
+                        }
                       </Form.Control.Feedback>
                     </Form.Group>
                   </>
@@ -151,6 +158,7 @@ function Register() {
                 <Form.Select 
                   required 
                   aria-label="Floating label select gender" 
+                  className="bg-white"
                   onChange={(e) => updateForm({ gender: e.target.value })}
                 >
                   <option/>
@@ -178,6 +186,7 @@ function Register() {
               <FloatingLabel controlId="floatingRace" label="Select your event">
                 <Form.Select 
                   required aria-label="Floating label select event" 
+                  className="bg-white"
                   onChange={(e) => updateForm({ event: e.target.value })}
                 >
                   <option />
@@ -196,6 +205,7 @@ function Register() {
                       <Form.Control 
                         type="text" 
                         readOnly 
+                        className="bg-white"
                         value={"₹" + (form.event === "1" ? 49 : 99)}
                       />
                   </FloatingLabel>
@@ -207,13 +217,14 @@ function Register() {
           <Row className="mb-4">
             <Col>
               <Form.Group controlId="formPayment">
-                <Form.Label>Upload transaction details (Limit: 512KB)</Form.Label>
+                <Form.Label>Upload transaction details (Limit: 1 MB)</Form.Label>
                 <Form.Control 
+                  className="bg-white"
                   required 
                   type="file"
                   isInvalid={paySizeExceeded}
                   onChange={(e) => {
-                    setPaySizeExceeded(e.target.files[0].size > 512)
+                    setPaySizeExceeded(e.target.files[0].size > FILE_SIZE_LIMIT)
 
                     const fr = new FileReader()
                     fr.readAsDataURL(e.target.files[0])

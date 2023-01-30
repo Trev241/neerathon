@@ -22,3 +22,9 @@
 .main {
   background-color: white;
 }
+
+.accordion-button:not(.collapsed) {
+  color: #ffffff;
+  background-color: #29008a;
+  box-shadow: inset 0 -1px 0 rgb(0 0 0 / 13%);
+}

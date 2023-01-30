@@ -20,7 +20,7 @@ function Navigation() {
           </Nav>
           <Nav>
             {/* <Nav.Link href="#register">Participate</Nav.Link> */}
-            <Button variant="light" onClick={() => navigate('/register')}>Participate</Button>
+            <Button variant="primary" onClick={() => navigate('/register')}>Participate</Button>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -1,9 +1,13 @@
+// COLORS
 // $primary:   #3c99dc;
 $secondary: #66d3fa;
 $light:     #d5f3fe;
 // $dark:      #0f5298;
 $info:      #2565ae;
 
-$body-bg:   #ecfcff;
+// ACCORDIONS
+$accordion-bg:   $light;
+
+$body-bg:   #b1edff;
 
 @import './../node_modules/bootstrap/scss/bootstrap.scss';
