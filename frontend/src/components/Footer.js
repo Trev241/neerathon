@@ -26,7 +26,7 @@ function Footer() {
 
         <Row>
           <Col className="d-flex justify-content-center">
-            <p><a href="https://github.com/Trev241/neerathon">Contribute</a> | <a href="https://github.com/Trev241/neerathon/issues">Report an issue</a></p>
+            <p><a href="https://github.com/Trev241/neerathon/issues">Report an issue</a></p>
           </Col>
         </Row>
       </Container>

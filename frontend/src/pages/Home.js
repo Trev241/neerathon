@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Accordion from 'react-bootstrap/Accordion'
+import Placeholder from 'react-bootstrap/Placeholder'
 
 import HomeCarousel from '../components/HomeCarousel'
 import Navigation from '../components/Navigation'
@@ -14,10 +15,10 @@ import './Home.css'
 
 function Home() {
   const [time, setTime] = useState({
-    seconds: "-",
-    minutes: "-",
-    hours: "-",
-    days: "-"
+    seconds: "",
+    minutes: "",
+    hours: "",
+    days: ""
   })
 
   const navigate = useNavigate()
@@ -68,7 +69,17 @@ function Home() {
 
         <Row>
           <p className="lead text-center">Remaining time before the event</p>
-          <p className="display-6 text-center">{time.days}d {time.hours}h {time.minutes}m {time.seconds}s</p>
+          <p className="display-6 text-center">
+            {
+              (time.seconds === "" && time.minutes === "" && time.hours === "" && time.days === "") ? (
+                <Placeholder className="w-25" />
+              ) : (
+                <>
+                  {time.days}d {time.hours}h {time.minutes}m {time.seconds}s
+                </>
+              )
+            }
+          </p>
         </Row>
 
         <hr className="my-5" />

@@ -1,6 +1,6 @@
-import { Storage } from 'megajs'
-
+const { Storage } = require("megajs")
 const { MongoClient } = require("mongodb")
+
 const Db = process.env.ATLAS_URI
 const client = new MongoClient(Db, {
   useNewUrlParser: true,
@@ -9,8 +9,9 @@ const client = new MongoClient(Db, {
 
 var _db
 var _megaCloud
- 
+
 module.exports = {
+
   connectToServer: function (callback) {
     client.connect(function (err, db) {
       // Verify we got a good "db" object

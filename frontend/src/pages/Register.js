@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
 import FloatingLabel from 'react-bootstrap/esm/FloatingLabel'
 import Button from 'react-bootstrap/Button'
+import Spinner from 'react-bootstrap/Spinner'
 import Container from 'react-bootstrap/esm/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -10,14 +11,18 @@ import Col from 'react-bootstrap/Col'
 import PaymentModal from '../components/PaymentModel'
 
 import './Register.css'
+import ErrorModal from '../components/ErrorModal'
 
 function Register() {
   const [validated, setValidated] = useState(false)
-  const [idSizeExceeded, setIdSizeExceeded] = useState(false)
-  const [paySizeExceeded, setPaySizeExceeded] = useState(false)
-  const [modalShow, setModalShow] = useState(false)
+  // const [idSizeExceeded, setIdSizeExceeded] = useState(false)
+  // const [paySizeExceeded, setPaySizeExceeded] = useState(false)
+  const [warnModalShow, setWarnModalShow] = useState(false)
+  const [warnContent, setWarnContent] = useState()
+  const [paymentModalShow, setPaymentModalShow] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
-  const FILE_SIZE_LIMIT = 1048576
+  // const FILE_SIZE_LIMIT = 1048576
   
   const [form, setForm] = useState({
     name: "",
@@ -25,11 +30,13 @@ function Register() {
     isJosephite: false,
     josephiteDetails: {
       id: "",
-      idAttachment: null
+      // idAttachment: null
     },
     gender: "",
     event: "",
-    paymentAttachment: ""
+    transactionId: "",
+    // paymentAttachment: "",
+    // disclaimer_agreed: false
   })
 
   const navigate = useNavigate()
@@ -44,33 +51,54 @@ function Register() {
 
   const handleSubmit = async (event) => {
     const f = event.currentTarget
-
+    
+    event.preventDefault()
     if (!f.checkValidity()) {
-      event.preventDefault()
       event.stopPropagation()
+
+      // Form has been validated. This does not mean that the form is ready for submission.
+      // Instead, it is a flag used to set visual cues...
+      setWarnModalShow(true)
+      setWarnContent("Please fill out the form completely and do not leave any required fields empty.")
+      setValidated(true)
+      
+      return
     }
-    setValidated(true)
 
     const newRegistration = { ...form }
+    console.log(newRegistration)
 
-    await fetch("http://localhost:5000/record/add", {
+    // Setting state to display loading status
+    setSubmitting(true)
+
+    await fetch(`${process.env.REACT_APP_API_ENDPOINT}/record/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(newRegistration),
     })
-    .catch(error => {
-      alert(error)
-      return
+    .then((response) => {
+      if (!response.ok) throw new Error(response.status)
+      else return new response.json()
     })
+    .then((data) => {
+      alert('Success! You will be returned to the home page')
+      navigate('/')
+    })
+    .catch(error => {
+      setWarnContent(`An error occurred when submitting the form. Please try again later. If the issue persists, then contact +91 95602 18478. Error: ${error}`)
+      setWarnModalShow(true)
+    })
+
+    setSubmitting(false)
   }
 
   return (
     <div className="wrapper">
-      <Container>
+      <Container className="">
         <Form className="my-5" noValidate validated={validated} onSubmit={handleSubmit}>
-          <Row className="my-4">
+          <Row className="mb-1 mt-5">
             <p className="display-6">Let us know more about you</p>
           </Row>
 
@@ -91,8 +119,8 @@ function Register() {
           </Row>
 
           <Row className="mb-3">
-            <Col>
-              <FloatingLabel controlId="floatingEmail" label="Email address">
+            <Col md>
+              <FloatingLabel className="mb-3" controlId="floatingEmail" label="Email address">
                 <Form.Control 
                   required type="email" 
                   placeholder="name@example.com" 
@@ -102,6 +130,21 @@ function Register() {
                   onChange={(e) => updateForm({ email: e.target.value})}
                 />
               </FloatingLabel>
+            </Col>
+            <Col>
+              <FloatingLabel controlId="floatingGender" label="Select your gender">
+                  <Form.Select 
+                    required 
+                    aria-label="Floating label select gender" 
+                    className="bg-white"
+                    onChange={(e) => updateForm({ gender: e.target.value })}
+                  >
+                    <option/>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </Form.Select>
+                </FloatingLabel>
             </Col>
           </Row>
           
@@ -127,7 +170,8 @@ function Register() {
                         onChange={(e) => updateForm({ josephiteDetails: { ...form.josephiteDetails, id: e.target.value} })}
                       />
                     </FloatingLabel>
-                    <Form.Group controlId="formId">
+
+                    {/* <Form.Group controlId="formId">
                       <Form.Label>Upload student ID card (Limit: 1 MB)</Form.Label>
                       <Form.Control 
                         required 
@@ -148,45 +192,14 @@ function Register() {
                           (idSizeExceeded) ? "File upload limit exceeded!" : "Error"
                         }
                       </Form.Control.Feedback>
-                    </Form.Group>
+                    </Form.Group> */}
                   </>
                 ) : <></>
               }
             </Col>
           </Row>
 
-          <Row className="mb-5">
-            <Col>
-              <FloatingLabel controlId="floatingGender" label="Select your gender">
-                <Form.Select 
-                  required 
-                  aria-label="Floating label select gender" 
-                  className="bg-white"
-                  onChange={(e) => updateForm({ gender: e.target.value })}
-                >
-                  <option/>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                </Form.Select>
-              </FloatingLabel>
-
-              {/* {
-                (form.gender === "Other") ? (
-                  <FloatingLabel as={Col} controlId="floatingGenderOther" label="Please specify">
-                    <Form.Control 
-                      required 
-                      type="text" 
-                      placeholder="Name"
-                      onChange={(e) => updateForm({ gender: e.target.value })} 
-                    />
-                  </FloatingLabel>
-                ) : <></>
-              } */}
-            </Col>
-          </Row>
-
-          <Row className="mb-4">
+          <Row className="mb-1 mt-5">
             <p className="display-6">Pay a small fee to an incredible cause</p>
           </Row>
 
@@ -207,7 +220,7 @@ function Register() {
           </Row>
           
           {
-            (form.event === "1" || form.event === "2") ? (
+            (form.event !== "") ? (
               <>
                 <Row className="mb-3">
                   <Col>
@@ -216,48 +229,72 @@ function Register() {
                           type="text" 
                           readOnly 
                           className="bg-white"
-                          value={"₹ " + (form.event === "1" ? 49 : 99)}
+                          value={"₹ " + (form.event === "1" ? 49 : form.event === "2" ? 99 : "")}
                         />
                     </FloatingLabel>
                   </Col>
                 </Row>
 
-                <Row className="mb-3">
+                <Row className="mb-4">
                   <Col>
-                    <Button className="w-100 py-3" onClick={() => setModalShow(true)}>
+                    <Button 
+                      className="w-100 py-3" 
+                      onClick={() => setPaymentModalShow(true)}
+                    >
                       Click here to pay
                     </Button>
                   </Col>
                 </Row>
+
+                <Row className="mb-1 mt-5">
+                  <p className="display-6">Enter your transaction details</p>
+                </Row>
+
+                <Row className="mb-3">
+                  <Col>
+                    <FloatingLabel as={Col} controlId="floatingTransactionId" label="UPI Transaction ID">
+                      <Form.Control 
+                        required 
+                        type="text" 
+                        placeholder="ID" 
+                        name="transactionId" 
+                        className="bg-white"
+                        // value={form.name} 
+                        onChange={(e) => updateForm({ transactionId: e.target.value})} 
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
+
+                {/* <Row>
+                  <Col>
+                    <Form.Group controlId="formPayment">
+                      <Form.Label>Upload transaction screenshot (Limit: 1 MB)</Form.Label>
+                      <Form.Control 
+                        className="bg-white"
+                        required 
+                        type="file"
+                        accept="image/*"
+                        isInvalid={paySizeExceeded}
+                        onChange={(e) => {
+                          setPaySizeExceeded(e.target.files[0].size > FILE_SIZE_LIMIT)
+
+                          const fr = new FileReader()
+                          fr.readAsDataURL(e.target.files[0])
+                          fr.onload = () => updateForm({ paymentAttachment: fr.result })}
+                        }
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {paySizeExceeded ? "File upload limit exceeded!" : "This field is necessary!"}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </Col>
+                </Row> */}
               </>
             ) : <></>
           }
 
-          <Row className="mb-5">
-            <Col>
-              <Form.Group controlId="formPayment">
-                <Form.Label>Upload transaction details (Limit: 1 MB)</Form.Label>
-                <Form.Control 
-                  className="bg-white"
-                  required 
-                  type="file"
-                  isInvalid={paySizeExceeded}
-                  onChange={(e) => {
-                    setPaySizeExceeded(e.target.files[0].size > FILE_SIZE_LIMIT)
-
-                    const fr = new FileReader()
-                    fr.readAsDataURL(e.target.files[0])
-                    fr.onload = () => updateForm({ paymentAttachment: fr.result })}
-                  }
-                />
-                <Form.Control.Feedback type="invalid">
-                  File upload limit exceeded!
-                </Form.Control.Feedback>
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Row>
+          <Row className="mt-4">
             <Col>
               <p>
                 Please note that
@@ -272,12 +309,12 @@ function Register() {
                   on this page.
                 </li>
                 <li>
-                  you are wholly responsible for the information you provide on the form. For a smooth registration process, ensure that you
-                  enter all details <b>accurately</b> especially the <b>UPI ID of your transaction</b>.
+                    you are wholly responsible for the information you provide on the form. For a smooth registration process, ensure that you
+                    enter all details <b>accurately</b> especially the <b>UPI ID of your transaction</b>.
                 </li>
                 <li>
-                  you <b>SHOULD NOT UPLOAD OR ENTER ANY INFORMATION THAT MAY COMPROMISE YOU</b>. This includes confidential information such
-                  as your UPI account details.
+                    you <b>SHOULD NOT UPLOAD OR ENTER ANY INFORMATION THAT MAY COMPROMISE YOU</b>. This includes confidential information such
+                    as your UPI account details.
                 </li>
               </ul>
             </Col>
@@ -285,7 +322,21 @@ function Register() {
 
           <Row className="my-4 justify-content-center">
             <Col lg className="d-flex justify-content-center my-1">
-              <Button className="w-100" variant="success" type="submit">Submit</Button>
+              <Button className="w-100" variant="success" type="submit">
+                {
+                  (submitting) ? (
+                    <>
+                      <Spinner
+                        as="span"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                      />
+                    </>
+                  ) : "Submit"
+                }
+              </Button>
             </Col>
             {/* <Col lg className="d-flex justify-content-center my-1">
               <Button className="w-100" variant="outline-danger" type="reset">Reset</Button>
@@ -298,9 +349,16 @@ function Register() {
       </Container>
 
       <PaymentModal 
-        show={modalShow}
+        show={paymentModalShow}
         fee={form.event === "1" ? 49 : 99}
-        onHide={() => setModalShow(false)}
+        onHide={() => setPaymentModalShow(false)}
+      />
+
+      <ErrorModal
+        show={warnModalShow}
+        title="Form Submission Error"
+        body={warnContent}
+        onHide={() => setWarnModalShow(false)}
       />
     </div>
   )
