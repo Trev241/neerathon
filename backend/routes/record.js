@@ -50,7 +50,8 @@ recordRoutes.route("/record/add").post(function (req, response) {
    josephiteDetails: req.body.josephiteDetails,
    gender: req.body.gender,
    event: req.body.event,
-   paymentAttachment: req.body.paymentAttachment
+   transactionId: req.body.transactionId
+  //  paymentAttachment: req.body.paymentAttachment
  };
  db_connect.collection("Participant").insertOne(myobj, function (err, res) {
    if (err) throw err
