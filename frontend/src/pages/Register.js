@@ -80,7 +80,7 @@ function Register() {
     })
     .then((response) => {
       if (!response.ok) throw new Error(response.status)
-      else return new response.json()
+      else return response.json()
     })
     .then((data) => {
       alert('Success! You will be returned to the home page')
