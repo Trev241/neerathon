@@ -94,4 +94,17 @@ recordRoutes.route("/:id").delete((req, response) => {
  })
 })
  
+// endpoint to fetch all registered users
+recordRoutes.route("/users").get(function(req, res) {
+  const db_connect = dbo.getDb();
+
+  db_connect.collection("Participant").find({}).toArray(function(err, users) {
+    if(err) {
+      return res.json({ "message": "Couldn't fetch users" })
+    }
+
+    return res.json({ users })
+  })
+})
+
 module.exports = recordRoutes
