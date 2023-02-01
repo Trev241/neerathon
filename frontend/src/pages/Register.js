@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
 import FloatingLabel from 'react-bootstrap/esm/FloatingLabel'
 import Button from 'react-bootstrap/Button'
@@ -6,13 +7,15 @@ import Container from 'react-bootstrap/esm/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
+import PaymentModal from '../components/PaymentModel'
+
 import './Register.css'
-import { useNavigate } from 'react-router-dom'
 
 function Register() {
   const [validated, setValidated] = useState(false)
   const [idSizeExceeded, setIdSizeExceeded] = useState(false)
   const [paySizeExceeded, setPaySizeExceeded] = useState(false)
+  const [modalShow, setModalShow] = useState(false)
 
   const FILE_SIZE_LIMIT = 1048576
   
@@ -67,11 +70,11 @@ function Register() {
     <div className="wrapper">
       <Container>
         <Form className="my-5" noValidate validated={validated} onSubmit={handleSubmit}>
-          <Row>
-            <p className="display-6">We need just a few details...</p>
+          <Row className="my-4">
+            <p className="display-6">Let us know more about you</p>
           </Row>
 
-          <Row className="my-4">
+          <Row className="mb-3">
             <Col>
               <FloatingLabel as={Col} controlId="floatingName" label="Full name">
                 <Form.Control 
@@ -87,7 +90,7 @@ function Register() {
             </Col>
           </Row>
 
-          <Row className="mb-4">
+          <Row className="mb-3">
             <Col>
               <FloatingLabel controlId="floatingEmail" label="Email address">
                 <Form.Control 
@@ -102,7 +105,7 @@ function Register() {
             </Col>
           </Row>
           
-          <Row className="mb-4">
+          <Row className="mb-3">
             <Col>
               <Form.Group className="mb-2" controlId="formJosephite">
                 <Form.Check
@@ -152,7 +155,7 @@ function Register() {
             </Col>
           </Row>
 
-          <Row className="mb-4">
+          <Row className="mb-5">
             <Col>
               <FloatingLabel controlId="floatingGender" label="Select your gender">
                 <Form.Select 
@@ -181,7 +184,13 @@ function Register() {
                 ) : <></>
               } */}
             </Col>
+          </Row>
 
+          <Row className="mb-4">
+            <p className="display-6">Pay a small fee to an incredible cause</p>
+          </Row>
+
+          <Row className="mb-3">
             <Col>
               <FloatingLabel controlId="floatingRace" label="Select your event">
                 <Form.Select 
@@ -196,25 +205,35 @@ function Register() {
               </FloatingLabel>
             </Col>
           </Row>
-
+          
           {
             (form.event === "1" || form.event === "2") ? (
-              <Row className="mb-4">
-                <Col>
-                  <FloatingLabel controlId="floatingFee" label="Registration Fee">
-                      <Form.Control 
-                        type="text" 
-                        readOnly 
-                        className="bg-white"
-                        value={"₹" + (form.event === "1" ? 49 : 99)}
-                      />
-                  </FloatingLabel>
-                </Col>
-              </Row>
+              <>
+                <Row className="mb-3">
+                  <Col>
+                    <FloatingLabel controlId="floatingFee" label="Registration Fee">
+                        <Form.Control 
+                          type="text" 
+                          readOnly 
+                          className="bg-white"
+                          value={"₹ " + (form.event === "1" ? 49 : 99)}
+                        />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
+
+                <Row className="mb-3">
+                  <Col>
+                    <Button className="w-100 py-3" onClick={() => setModalShow(true)}>
+                      Click here to pay
+                    </Button>
+                  </Col>
+                </Row>
+              </>
             ) : <></>
           }
 
-          <Row className="mb-4">
+          <Row className="mb-5">
             <Col>
               <Form.Group controlId="formPayment">
                 <Form.Label>Upload transaction details (Limit: 1 MB)</Form.Label>
@@ -240,11 +259,27 @@ function Register() {
 
           <Row>
             <Col>
-              <p className="text-muted">
-                After submitting the form, you will receive an email. If you have any trouble filling up the form please reach out to contact@example.com.
-                <b> Do not upload or fill any sensitive information that has not been asked for and that may compromise you. Neither the WACC, the University 
-                nor the developer of this site is responsible for any damages caused as a result.</b>
+              <p>
+                Please note that
               </p>
+              <ul>
+                <li>
+                  payments once made are <b>PERMANENT</b> and <b>CANNOT BE REVERSED OR REFUNDED</b>. Refreshing the page, restarting your 
+                  browser or any such similar action will <b>only reset the form BUT will not reset/reverse any payment(s) that you may 
+                  have already made</b>. Do not be under the assumption that refreshing the page will reverse any transactions made. 
+                  If you have already paid the registration fee by scanning the QR code, you should continue filling the form and include 
+                  the details of your payment. By details, we are referring to the UPI ID of the transaction you made in the QR code provided
+                  on this page.
+                </li>
+                <li>
+                  you are wholly responsible for the information you provide on the form. For a smooth registration process, ensure that you
+                  enter all details <b>accurately</b> especially the <b>UPI ID of your transaction</b>.
+                </li>
+                <li>
+                  you <b>SHOULD NOT UPLOAD OR ENTER ANY INFORMATION THAT MAY COMPROMISE YOU</b>. This includes confidential information such
+                  as your UPI account details.
+                </li>
+              </ul>
             </Col>
           </Row>
 
@@ -252,15 +287,21 @@ function Register() {
             <Col lg className="d-flex justify-content-center my-1">
               <Button className="w-100" variant="success" type="submit">Submit</Button>
             </Col>
-            <Col lg className="d-flex justify-content-center my-1">
+            {/* <Col lg className="d-flex justify-content-center my-1">
               <Button className="w-100" variant="outline-danger" type="reset">Reset</Button>
-            </Col>
+            </Col> */}
             <Col lg className="d-flex justify-content-center my-1">
-              <Button className="w-100" variant="outline-secondary" onClick={() => navigate('/')}>Back</Button>
+              <Button className="w-100" variant="outline-danger" onClick={() => navigate('/')}>Back</Button>
             </Col>
           </Row>
         </Form>
       </Container>
+
+      <PaymentModal 
+        show={modalShow}
+        fee={form.event === "1" ? 49 : 99}
+        onHide={() => setModalShow(false)}
+      />
     </div>
   )
 }

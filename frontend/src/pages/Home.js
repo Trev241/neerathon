@@ -121,7 +121,7 @@ function Home() {
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
-          <p className="text-muted">Don't see your question here? It's okay, you can always contact us directly at contact@example.com!</p>
+          <p className="text-muted">Don't see your question here? It's okay, you can always reach out to us through our socials!</p>
         </Row>
       </Container>
 
