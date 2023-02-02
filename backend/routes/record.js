@@ -14,26 +14,26 @@ const ObjectId = require("mongodb").ObjectId
  
 // This section will help you get a list of all the records.
 recordRoutes.route("/record").get(function (req, res) {
- let db_connect = dbo.getDb()
- db_connect
-   .collection("Participant")
-   .find({})
-   .toArray(function (err, result) {
-     if (err) throw err
-     res.json(result)
-   })
+  let db_connect = dbo.getDb()
+  db_connect
+    .collection("Participant")
+    .find({})
+    .toArray(function (err, result) {
+      if (err) throw err
+      res.json(result)
+    })
 })
  
 // This section will help you get a single record by id
 recordRoutes.route("/record/:id").get(function (req, res) {
- let db_connect = dbo.getDb()
- let myquery = { _id: ObjectId(req.params.id) }
- db_connect
-   .collection("Participant")
-   .findOne(myquery, function (err, result) {
-     if (err) throw err
-     res.json(result)
-   })
+  let db_connect = dbo.getDb()
+  let myquery = { _id: ObjectId(req.params.id) }
+  db_connect
+    .collection("Participant")
+    .findOne(myquery, function (err, result) {
+      if (err) throw err
+      res.json(result)
+    })
 })
 
 // This section will help you create a new record.
@@ -41,7 +41,8 @@ recordRoutes.route("/record/add").post(function (req, response) {
  let db_connect = dbo.getDb()
  let mega_connect = dbo.getMegaCloud()
 
- 
+ console.log(db_connect)
+ console.log(dbo)
 
  let myobj = {
    name: req.body.name,
@@ -95,7 +96,7 @@ recordRoutes.route("/:id").delete((req, response) => {
 })
  
 // endpoint to fetch all registered users
-recordRoutes.route("/users").get(function(req, res) {
+recordRoutes.route("/participants").get(function(req, res) {
   const db_connect = dbo.getDb();
 
   db_connect.collection("Participant").find({}).toArray(function(err, users) {

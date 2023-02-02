@@ -16,19 +16,20 @@ module.exports = {
   connectToServer: async function (callback) {
     // client.connect(function (err, db) {
     //   // Verify we got a good "db" object
-    //   if (db) {
-    //     _db = db.db("Neerathon");
-    //     console.log("Successfully connected to MongoDB.")
+    //   if (err || !db) {
+    //     return callback(err)
     //   }
-    //   return callback(err)
+    //   _db = db.db("Neerathon");
+    //   console.log("Successfully connected to MongoDB.")
+    
+    //   return callback()
     // })
 
-    if (_db)
+    if (_db && _conn)
       return _db
 
-    console.log("Attempting to connect...")
     _conn = await client.connect()
-    _db = _conn.db("Neerathon")
+    _db = await _conn.db(process.env.ATLAS_DATABASE)
     console.log("Successfully connected to MongoDB")
   },
  
