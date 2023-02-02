@@ -8,6 +8,8 @@ const recordRoutes = express.Router()
 // This will help us connect to the database
 const dbo = require("../db/conn") 
 
+const { Storage } = require("megajs")
+
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId
 
@@ -48,11 +50,13 @@ recordRoutes.route("/record/add").post(upload.single("paymentAttachment"), async
 
   let db_connect = dbo.getDb()
   
-  dbo.connectToMega()
-  let mega_connect = dbo.getMegaCloud()
+  // dbo.connectToMega()
+  // let mega_connect = dbo.getMegaCloud()
 
-//  console.log(db_connect)
-//  console.log(dbo)
+  let mega_connect = await new Storage({
+    email: process.env.MEGA_EMAIL,
+    password: process.env.MEGA_PASSWORD
+  }).ready
 
   let myobj = {
     name: req.body.name,
