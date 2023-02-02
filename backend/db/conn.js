@@ -13,7 +13,8 @@ var _megaCloud
 
 module.exports = {
 
-  connectToServer: function (callback) {
+  connectToServer: async function (callback) {
+    // First connect to MongoDB
     client.connect(function (err, db) {
       // Verify we got a good "db" object
       if (err || !db) {
@@ -32,17 +33,16 @@ module.exports = {
     // _conn = client.connect()
     // _db = _conn.db(process.env.ATLAS_DATABASE)
     // console.log("Successfully connected to MongoDB")
-  },
- 
-  getDb: function () {
-    return _db
-  },
 
-  connectToMegaCloud: async function() {
+    // Now connect to MEGA
     _megaCloud = await new Storage({
       email: process.env.MEGA_EMAIL,
       password: process.env.MEGA_PASSWORD
     }).ready
+  },
+ 
+  getDb: function () {
+    return _db
   },
 
   getMegaCloud: function () {

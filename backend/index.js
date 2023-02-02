@@ -26,7 +26,6 @@ const dbo = require("./db/conn")
 //   console.log(`Server is running on port: ${port}`)
 // })
 
-dbo.connectToMegaCloud()
 dbo.connectToServer(async function (err) {
   if (err) {
     console.error(err)
