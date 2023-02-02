@@ -26,21 +26,16 @@ const dbo = require("./db/conn")
 //   console.log(`Server is running on port: ${port}`)
 // })
 
-dbo.connectToMega()
-  .then(() => {
-    dbo.connectToServer(function (err) {
-      if (err) {
-        console.error(err)
-        process.exit()
-      } 
-      
-      app.listen(port, () => {
-        console.log(`Server running on port: ${port}`)
-      })
-    })
+dbo.connectToServer(async function (err) {
+  if (err) {
+    console.error(err)
+    process.exit()
+  } 
+  
+  app.listen(port, () => {
+    console.log(`Server running on port: ${port}`)
   })
-  .catch(() => {
-    console.log("Failed to connect to MEGA")
-  })
+})
+
 
 module.exports = app
