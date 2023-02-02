@@ -13,24 +13,25 @@ var _megaCloud
 
 module.exports = {
 
-  connectToServer: async function (callback) {
-    // client.connect(function (err, db) {
-    //   // Verify we got a good "db" object
-    //   if (err || !db) {
-    //     return callback(err)
-    //   }
-    //   _db = db.db("Neerathon");
-    //   console.log("Successfully connected to MongoDB.")
+  connectToServer: function (callback) {
+    client.connect(function (err, db) {
+      // Verify we got a good "db" object
+      if (err || !db) {
+        return callback(err)
+      }
+      
+      _db = db.db("Neerathon");
+      console.log("Successfully connected to MongoDB.")
     
-    //   return callback()
-    // })
+      return callback()
+    })
 
-    if (_db && _conn)
-      return _db
+    // if (_db && _conn)
+    //   return _db
 
-    _conn = await client.connect()
-    _db = await _conn.db(process.env.ATLAS_DATABASE)
-    console.log("Successfully connected to MongoDB")
+    // _conn = client.connect()
+    // _db = _conn.db(process.env.ATLAS_DATABASE)
+    // console.log("Successfully connected to MongoDB")
   },
  
   getDb: function () {
