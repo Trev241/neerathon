@@ -16,13 +16,13 @@ import ErrorModal from '../components/ErrorModal'
 function Register() {
   const [validated, setValidated] = useState(false)
   // const [idSizeExceeded, setIdSizeExceeded] = useState(false)
-  // const [paySizeExceeded, setPaySizeExceeded] = useState(false)
+  const [paySizeExceeded, setPaySizeExceeded] = useState(false)
   const [warnModalShow, setWarnModalShow] = useState(false)
   const [warnContent, setWarnContent] = useState()
   const [paymentModalShow, setPaymentModalShow] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
-  // const FILE_SIZE_LIMIT = 1048576
+  const FILE_SIZE_LIMIT = 1048576
   
   const [form, setForm] = useState({
     name: "",
@@ -35,7 +35,7 @@ function Register() {
     gender: "",
     event: "",
     transactionId: "",
-    // paymentAttachment: "",
+    paymentAttachment: ""
     // disclaimer_agreed: false
   })
 
@@ -65,18 +65,24 @@ function Register() {
       return
     }
 
-    const newRegistration = { ...form }
-    console.log(newRegistration)
+    // const newRegistration = { ...form }
+    // console.log(newRegistration)
+
+    const formData = new FormData()
+    Object.keys(form).forEach(key => formData.append(key, form[key]))
+    for (var pair of formData.entries()) {
+      console.log(pair[0]+ ', ' + pair[1]); 
+    }
 
     // Setting state to display loading status
     setSubmitting(true)
 
     await fetch(`${process.env.REACT_APP_API_ENDPOINT}/record/add`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newRegistration),
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
+      body: formData,
     })
     .then((response) => {
       if (!response.ok) throw new Error(response.status)
@@ -266,7 +272,7 @@ function Register() {
                   </Col>
                 </Row>
 
-                {/* <Row>
+                <Row>
                   <Col>
                     <Form.Group controlId="formPayment">
                       <Form.Label>Upload transaction screenshot (Limit: 1 MB)</Form.Label>
@@ -279,17 +285,20 @@ function Register() {
                         onChange={(e) => {
                           setPaySizeExceeded(e.target.files[0].size > FILE_SIZE_LIMIT)
 
-                          const fr = new FileReader()
-                          fr.readAsDataURL(e.target.files[0])
-                          fr.onload = () => updateForm({ paymentAttachment: fr.result })}
-                        }
+                          // const fr = new FileReader()
+                          // fr.readAsDataURL(e.target.files[0])
+                          // fr.onload = () => updateForm({ paymentAttachment: fr.result })
+
+                          if (!paySizeExceeded)
+                            updateForm({ paymentAttachment: e.target.files[0] })
+                        }}
                       />
                       <Form.Control.Feedback type="invalid">
                         {paySizeExceeded ? "File upload limit exceeded!" : "This field is necessary!"}
                       </Form.Control.Feedback>
                     </Form.Group>
                   </Col>
-                </Row> */}
+                </Row>
               </>
             ) : <></>
           }

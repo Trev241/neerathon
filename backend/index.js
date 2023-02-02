@@ -18,7 +18,6 @@ app.get('/', (req, res) => {
 // get driver connection
 const dbo = require("./db/conn")
 
-
 // app.listen(port, () => {
 //   // perform a database connection when server starts
 //   dbo.connectToServer(function (err) {
@@ -27,15 +26,17 @@ const dbo = require("./db/conn")
 //   console.log(`Server is running on port: ${port}`)
 // })
 
-dbo.connectToServer(function (err) {
+dbo.connectToServer(async function (err) {
   if (err) {
     console.error(err)
     process.exit()
   } 
-
+  
+  await dbo.connectToMegaCloud()
   app.listen(port, () => {
     console.log(`Server running on port: ${port}`)
   })
 })
+
 
 module.exports = app
