@@ -8,19 +8,28 @@ const client = new MongoClient(Db, {
 })
 
 var _db
+var _conn
 var _megaCloud
 
 module.exports = {
 
-  connectToServer: function (callback) {
-    client.connect(function (err, db) {
-      // Verify we got a good "db" object
-      if (db) {
-        _db = db.db("Neerathon");
-        console.log("Successfully connected to MongoDB.")
-      }
-      return callback(err)
-    })
+  connectToServer: async function (callback) {
+    // client.connect(function (err, db) {
+    //   // Verify we got a good "db" object
+    //   if (db) {
+    //     _db = db.db("Neerathon");
+    //     console.log("Successfully connected to MongoDB.")
+    //   }
+    //   return callback(err)
+    // })
+
+    if (_db)
+      return _db
+
+    console.log("Attempting to connect...")
+    _conn = await client.connect()
+    _db = _conn.db("Neerathon")
+    console.log("Successfully connected to MongoDB")
   },
  
   getDb: function () {
