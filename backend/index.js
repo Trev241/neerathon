@@ -26,13 +26,13 @@ const dbo = require("./db/conn")
 //   console.log(`Server is running on port: ${port}`)
 // })
 
+dbo.connectToMegaCloud()
 dbo.connectToServer(async function (err) {
   if (err) {
     console.error(err)
     process.exit()
   } 
   
-  await dbo.connectToMegaCloud()
   app.listen(port, () => {
     console.log(`Server running on port: ${port}`)
   })
