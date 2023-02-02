@@ -8,7 +8,6 @@ const client = new MongoClient(Db, {
 })
 
 var _db
-var _conn
 var _megaCloud
 
 module.exports = {
@@ -33,14 +32,15 @@ module.exports = {
     // _conn = client.connect()
     // _db = _conn.db(process.env.ATLAS_DATABASE)
     // console.log("Successfully connected to MongoDB")
-
-    // Now connect to MEGA
+  },
+  
+  connectToMega: async function () {
     _megaCloud = await new Storage({
       email: process.env.MEGA_EMAIL,
       password: process.env.MEGA_PASSWORD
     }).ready
   },
- 
+
   getDb: function () {
     return _db
   },
