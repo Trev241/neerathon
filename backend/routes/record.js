@@ -43,6 +43,9 @@ recordRoutes.route("/record/:id").get(function (req, res) {
 // This section will help you create a new record.
 // recordRoutes.route("/record/add").post(async function (req, response) {
 recordRoutes.post("/record/add", upload.single("paymentAttachment"), async (req, response, next) => {
+  // Since we are using routes.post() to setup the route, it is necessary to exercise CORS here
+  response.set("Access-Control-Allow-Origin", "*")
+
   let db_connect = dbo.getDb()
   let mega_connect = dbo.getMegaCloud()
 
