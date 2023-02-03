@@ -14,6 +14,7 @@ const { Storage } = require("megajs")
 const ObjectId = require("mongodb").ObjectId
 
 const multer = require('multer')
+const { MongoClient } = require("mongodb")
 const upload = multer({
   limits: {fileSize: 1000000}
 })
@@ -44,12 +45,14 @@ recordRoutes.route("/record/:id").get(function (req, res) {
 
 // This section will help you create a new record.
 // recordRoutes.route("/record/add").post(async function (req, response) {
-recordRoutes.route("/record/add").post(upload.single("paymentAttachment"), async (req, response, next) => {
-  // Since we are using routes.post() to setup the route, it is necessary to exercise CORS here
-  // response.set("Access-Control-Allow-Origin", "*")
+recordRoutes.route("/record/add").post(upload.single("paymentAttachment"), async (req, response, error) => {
+  let db_connect, mega_connect
 
-  let db_connect = dbo.getDb()
-  let mega_connect = dbo.getMegaCloud()
+  db_connect = new MongoClient(process.env.ATLAS_URI, { useNewUrlParser: true, useUnifiedTopology: true }).db(process.env.ATLAS_DATABASE)
+  mega_connect = await new Storage({
+    email: process.env.MEGA_EMAIL,
+    password: process.env.MEGA_PASSWORD
+  }).ready
 
   let myobj = {
     name: req.body.name,
@@ -59,7 +62,6 @@ recordRoutes.route("/record/add").post(upload.single("paymentAttachment"), async
     gender: req.body.gender,
     event: req.body.event,
     transactionId: req.body.transactionId
-    //  paymentAttachment: req.body.paymentAttachment
   };
   
   const filename = `${req.body.name}+${req.body.email}.png`
