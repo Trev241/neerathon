@@ -40,6 +40,8 @@ module.exports = {
       password: process.env.MEGA_PASSWORD
     }).ready
 
+    await _megaCloud.ready
+
     return callback()
   },
 
