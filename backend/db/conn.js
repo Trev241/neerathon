@@ -21,7 +21,6 @@ module.exports = {
       }
       
       _db = db.db("Neerathon");
-      console.log("Successfully connected to MongoDB.")
     
       return callback()
     })
@@ -34,11 +33,13 @@ module.exports = {
     // console.log("Successfully connected to MongoDB")
   },
   
-  connectToMega: async function () {
+  connectToMega: async function (callback) {
     _megaCloud = await new Storage({
       email: process.env.MEGA_EMAIL,
       password: process.env.MEGA_PASSWORD
     }).ready
+
+    return callback()
   },
 
   getDb: function () {

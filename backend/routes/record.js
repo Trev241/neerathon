@@ -49,14 +49,7 @@ recordRoutes.route("/record/add").post(upload.single("paymentAttachment"), async
   // response.set("Access-Control-Allow-Origin", "*")
 
   let db_connect = dbo.getDb()
-  
-  // dbo.connectToMega()
-  // let mega_connect = dbo.getMegaCloud()
-
-  let mega_connect = await new Storage({
-    email: process.env.MEGA_EMAIL,
-    password: process.env.MEGA_PASSWORD
-  }).ready
+  let mega_connect = dbo.getMegaCloud()
 
   let myobj = {
     name: req.body.name,
