@@ -64,14 +64,15 @@ recordRoutes.route("/record/add").post(upload.single("paymentAttachment"), async
     event: req.body.event,
     transactionId: req.body.transactionId
   };
-  
-  const filename = `${req.body.name}+${req.body.email}.png`
-  await mega_connect.upload(filename, Buffer.from(file.buffer, 'base64')).complete
-  console.log(`Saved image as ${filename}`)
-  
-  db_connect.collection("Participant").insertOne(myobj, function (err, res) {
+
+  db_connect.collection("Participant").insertOne(myobj, async function (err, res) {
     if (err) throw err
-    response.json(res)
+
+    const filename = `${res.insertedId} (${req.body.name}|${req.body.email}).png`
+    await mega_connect.upload(filename, Buffer.from(file.buffer, 'base64')).complete
+    console.log(`Saved image to MEGA as ${filename}`)
+  
+    return response.json(res)
   })
 })
  
