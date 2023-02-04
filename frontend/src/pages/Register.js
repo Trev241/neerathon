@@ -28,15 +28,11 @@ function Register() {
     name: "",
     email: "",
     isJosephite: false,
-    josephiteDetails: {
-      id: "",
-      // idAttachment: null
-    },
+    registerNumber: "",
     gender: "",
     event: "",
     transactionId: "",
     paymentAttachment: ""
-    // disclaimer_agreed: false
   })
 
   const navigate = useNavigate()
@@ -70,9 +66,6 @@ function Register() {
 
     const formData = new FormData()
     Object.keys(form).forEach(key => formData.append(key, form[key]))
-    for (var pair of formData.entries()) {
-      console.log(pair[0]+ ', ' + pair[1]); 
-    }
 
     // Setting state to display loading status
     setSubmitting(true)
@@ -173,7 +166,7 @@ function Register() {
                         type="text" 
                         placeholder="e.g. 20BCAA27"
                         className="bg-white"
-                        onChange={(e) => updateForm({ josephiteDetails: { ...form.josephiteDetails, id: e.target.value} })}
+                        onChange={(e) => updateForm({ registerNumber: e.target.value })}
                       />
                     </FloatingLabel>
 

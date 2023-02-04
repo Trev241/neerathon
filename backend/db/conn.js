@@ -1,55 +1,28 @@
 const { Storage } = require("megajs")
 const { MongoClient } = require("mongodb")
 
-const Db = process.env.ATLAS_URI
-const client = new MongoClient(Db, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  connectTimeoutMS: 60000
-})
+// The singleton pattern is not appropriate for Serverless depolyments due to their stateless nature.
+// It is possible that these variables will lose their value and become undefined during runtime.
+// var _db
+// var _megaCloud
 
-var _db
-var _megaCloud
+async function connectToMongo() {
+  const client = new MongoClient(process.env.ATLAS_URI, { useNewUrlParser: true, useUnifiedTopology: true})
+  await client.connect()
+  
+  return client
+}
+
+async function connectToMega() {
+  const client = await new Storage({
+    email: process.env.MEGA_EMAIL,
+    password: process.env.MEGA_PASSWORD
+  }).ready
+
+  return client
+}
 
 module.exports = {
-
-  connectToServer: async function (callback) {
-    // First connect to MongoDB
-    client.connect(function (err, db) {
-      // Verify we got a good "db" object
-      if (err || !db) {
-        return callback(err)
-      }
-      
-      _db = db.db("Neerathon");
-    
-      return callback()
-    })
-
-    // if (_db && _conn)
-    //   return _db
-
-    // _conn = client.connect()
-    // _db = _conn.db(process.env.ATLAS_DATABASE)
-    // console.log("Successfully connected to MongoDB")
-  },
-  
-  connectToMega: async function (callback) {
-    _megaCloud = await new Storage({
-      email: process.env.MEGA_EMAIL,
-      password: process.env.MEGA_PASSWORD
-    }).ready
-
-    await _megaCloud.ready
-
-    return callback()
-  },
-
-  getDb: function () {
-    return _db
-  },
-
-  getMegaCloud: function () {
-    return _megaCloud
-  }
+  connectToMega,
+  connectToMongo
 }
