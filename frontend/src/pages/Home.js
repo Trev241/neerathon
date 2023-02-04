@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Accordion from 'react-bootstrap/Accordion'
 import Placeholder from 'react-bootstrap/Placeholder'
+import Nav from 'react-bootstrap/Nav'
 
 import HomeCarousel from '../components/HomeCarousel'
 import Navigation from '../components/Navigation'
@@ -20,6 +21,8 @@ function Home() {
     hours: "",
     days: ""
   })
+
+  const [detailsTab, setDetailsTab] = useState(0)
 
   const navigate = useNavigate()
 
@@ -45,65 +48,138 @@ function Home() {
     })
   }
 
+  let details
+  switch (detailsTab) {
+    case 0:
+      details = (
+        <p className="lead mt-4">The event will take place on <b>26th February 2023</b> at <b>5:30 AM</b> in the morning. We have breakfast ready for you so don't worry about going hungry.</p>
+      )
+      break
+    case 1:
+      details = (
+        <Container>
+          <Row>
+            <p className="lead mt-4">We don't want you to get lost during the run! Here's a map for you so that you don't end up in Majestic or MG Road.</p>
+            <p className="text-muted">Psst! You can zoom in to have a better look.</p>
+          </Row>
+          <Row>
+            <Col>
+              <div className="ratio ratio-4x3">
+                <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1PF05_9PTfu6AAQpWWz51os0SfMAUD4A&ehbc=2E312F" title="Neerathon Routes"></iframe>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      ) 
+      break
+    case 2:
+      details = (
+        <Container className="lead mt-4">
+          <Row>
+            <Col>
+              <p>Here is a list of all the participation categories.</p>
+              <ul>
+                <li>Children (below 12 years) 2 KM</li>
+                <li>Children (below 12 years) 5 KM</li>
+                <li>General (Male) 2 KM</li>
+                <li>General (Male) 5 KM</li>
+                <li>General (Female) 2 KM</li>
+                <li>General (Female) 5 KM</li>
+                <li>Senior Citizen (Female) 2 KM</li>
+                <li>Senior Citizen (Female) 5 KM</li>
+              </ul>
+            </Col>
+          </Row>
+        </Container>
+      )
+      break
+    case 3:
+      details = (
+        <Container className="lead mt-4">
+          <Row>
+            <Col>
+              <p>
+                If you perform well and place in the <b>top three positions</b> of your category, then we have exiciting cash prizes and medals for you! And don't be disappointed if you don't, you still 
+                get goodies including a ceritificate of participation, a T-shirt and a beautiful breakfast.
+              </p>
+            </Col>
+          </Row>
+        </Container>
+      )
+      break
+    default:
+      details = (
+        <p className="lead mt-4">Nothing here to see!</p>
+      )
+      break
+  }
+
   return (
     <>
       <Navigation />
       <HomeCarousel />
-      <Container className="px-5">
-        <Row>
-          <Col>
-            <h1 className="display-1 mt-5">
-              Neerathon 2023 is coming!
+
+      <div className="mb-5 py-5 banner bg-gradient text-white">
+        <Container>
+          <Row className="mb-4">
+            <h1 className="display-1">
+              <b>Neerathon 2023 is coming!</b>
             </h1>
-            <p className="lead">
+            <p className="display-6">
               The Wildlife Awareness Conservation Club of St. Joseph's University is excited to bring forth to you this year's edition of Neerathon.
             </p>
-          </Col>
-        </Row>
-        
-        <Row>
+          </Row>
+          <Row>
+            <Col>
+              <Button className="mb-3 py-3 px-5 btn-info" onClick={() => navigate('/register')}>
+                <h5 className="my-0 register-text">Register now</h5>
+              </Button>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+
+      <Container>
+        <Row className="my-5 text-center bg-dark text-white rounded py-3">
           <Col>
-            <Button className="my-5 p-4 w-100" onClick={() => navigate('/register')}>REGISTER NOW</Button>
+            <p className="display-2 mb-1">
+              {
+                (time.seconds === "" && time.minutes === "" && time.hours === "" && time.days === "") ? (
+                  <Placeholder className="w-25" />
+                ) : (
+                  <>
+                    {time.days}d {time.hours}h {time.minutes}m {time.seconds}s
+                  </>
+                )
+              }
+            </p>
+            <p className="display-6">before the big day</p>
           </Col>
         </Row>
-
-        <Row>
-          <p className="lead text-center">Remaining time before the event</p>
-          <p className="display-6 text-center">
-            {
-              (time.seconds === "" && time.minutes === "" && time.hours === "" && time.days === "") ? (
-                <Placeholder className="w-25" />
-              ) : (
-                <>
-                  {time.days}d {time.hours}h {time.minutes}m {time.seconds}s
-                </>
-              )
-            }
-          </p>
-        </Row>
-
-        <hr className="my-5" />
-
         <Row id="details">
-          <Col>
-            <p className="display-4 mb-3">Event Details</p>
-            <p className="lead">
-              The event will be conducted on 26th February 2023 and will feature two races of 2KM and 5KM each.
-              Worried about getting lost? Take a look at the map to learn more about the route.
-            </p>
-            <p className="text-muted">
-              Psst! Don't forget to zoom in to get a better look.
-            </p>
-          </Col>
-          <Col md>
-            <div className="ratio ratio-4x3">
-              <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1PF05_9PTfu6AAQpWWz51os0SfMAUD4A&ehbc=2E312F" title="Neerathon Routes"></iframe>
-            </div>
-          </Col>
+          <p className="display-4">Event Details</p>
+          <Nav justify variant="tabs">
+            <Nav.Item>
+              <Nav.Link onClick={() => setDetailsTab(0)} eventKey="link-0">Date</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link onClick={() => setDetailsTab(1)} eventKey="link-1">Route</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link onClick={() => setDetailsTab(2)} eventKey="link-2">Categories</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link onClick={() => setDetailsTab(3)} eventKey="link-3">Prizes</Nav.Link>
+            </Nav.Item>
+          </Nav>
+        </Row>
+        
+        <Row>
+          {details}
         </Row>
 
         <hr className="my-5" />
-        
+
         <Row id="faq">
           <p className="display-4 mb-3">Frequently Asked Questions</p>
           <Accordion defaultActiveKey={['0']} alwaysOpen className="mb-3">

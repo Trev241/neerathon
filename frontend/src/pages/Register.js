@@ -27,9 +27,10 @@ function Register() {
   const [form, setForm] = useState({
     name: "",
     email: "",
+    age: "",
+    gender: "",
     isJosephite: false,
     registerNumber: "",
-    gender: "",
     event: "",
     transactionId: "",
     paymentAttachment: ""
@@ -81,12 +82,12 @@ function Register() {
       if (!response.ok) throw new Error(response.status)
       else return response.json()
     })
-    .then((data) => {
-      alert('Success! You will be returned to the home page')
+    .then((response) => {
+      alert(`Success! Your UUID number is ${response.uuid}. Please save this number if you wish to view your application later. You will now be returned to the home page`)
       navigate('/')
     })
     .catch(error => {
-      setWarnContent(`An error occurred when submitting the form. Please try again later. If the issue persists, then contact +91 95602 18478. Error: ${error}`)
+      setWarnContent(`An error occurred when submitting the form. Please try again later. If the issue persists, then contact +91 95602 18478. ${error}`)
       setWarnModalShow(true)
     })
 
@@ -117,16 +118,31 @@ function Register() {
             </Col>
           </Row>
 
+          <Row>
+            <Col md>
+                <FloatingLabel className="mb-3" controlId="floatingEmail" label="Email address">
+                  <Form.Control 
+                    required 
+                    type="email" 
+                    placeholder="name@example.com" 
+                    name="email" 
+                    className="bg-white"
+                    onChange={(e) => updateForm({ email: e.target.value})}
+                  />
+                </FloatingLabel>
+              </Col>
+          </Row>
+
           <Row className="mb-3">
             <Col md>
-              <FloatingLabel className="mb-3" controlId="floatingEmail" label="Email address">
+              <FloatingLabel className="mb-3" controlId="floatingAge" label="Age">
                 <Form.Control 
-                  required type="email" 
+                  required 
+                  type="number" 
                   placeholder="name@example.com" 
                   name="email" 
                   className="bg-white"
-                  // value={form.email} 
-                  onChange={(e) => updateForm({ email: e.target.value})}
+                  onChange={(e) => updateForm({ age: e.target.value})}
                 />
               </FloatingLabel>
             </Col>

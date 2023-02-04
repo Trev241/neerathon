@@ -18,7 +18,7 @@ function Footer() {
             </ListGroup>
           </Col>
           <Col md>
-            <p className="text-end"><a href="https://www.instagram.com">Follow</a> us on Instagram.</p>
+            <p className="text-end">Follow us on <a href="https://www.instagram.com">Instagram</a>.</p>
           </Col>
         </Row>
 

@@ -75,6 +75,7 @@ recordRoutes.route("/record/add").post(upload.single("paymentAttachment"), async
     uuid: newUuid,
     name: req.body.name,
     email: req.body.email,
+    age: req.body.age,
     isJosephite: req.body.isJosephite,
     registerNumber: req.body.registerNumber,
     gender: req.body.gender,
@@ -106,6 +107,7 @@ recordRoutes.route("/record/update/:id").post(async (req, res) => {
     $set: {
       name: req.body.name,
       email: req.body.email,
+      age: req.body.age,
       isJosephite: req.body.isJosephite,
       registerNumber: req.body.registerNumber,
       gender: req.body.gender,
