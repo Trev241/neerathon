@@ -22,7 +22,7 @@ const { v4: uuidv4 } = require("uuid")
 
 // Fetch all records
 recordRoutes.route("/record").get(async (req, res) => {
-  let db_connect = connectToMongo().db(process.env.ATLAS_DATABASE)
+  let db_connect = await connectToMongo().db(process.env.ATLAS_DATABASE)
 
   const records = await db_connect
     .collection("Participant")
@@ -34,7 +34,7 @@ recordRoutes.route("/record").get(async (req, res) => {
  
 // Fetch record by ID
 recordRoutes.route("/record/id/:id").get(async (req, res) => {
-  let db_connect = connectToMongo().db(process.env.ATLAS_DATABASE)
+  let db_connect = await connectToMongo().db(process.env.ATLAS_DATABASE)
 
   const record  = await db_connect
     .collection("Participant")
@@ -44,7 +44,7 @@ recordRoutes.route("/record/id/:id").get(async (req, res) => {
 })
 
 recordRoutes.route("/record/uuid/:uuid").get(async (req, res) => {
-  let db_connect = connectToMongo().db(process.env.ATLAS_DATABASE)
+  let db_connect = await connectToMongo().db(process.env.ATLAS_DATABASE)
   
   const record = await db_connect
     .collection("Participant")
@@ -56,7 +56,7 @@ recordRoutes.route("/record/uuid/:uuid").get(async (req, res) => {
 // Create record
 recordRoutes.route("/record/add").post(upload.single("paymentAttachment"), async (req, response, error) => {
   const file = req.file 
-  let db_connect = connectToMongo().db(process.env.ATLAS_DATABASE)
+  let db_connect = await connectToMongo().db(process.env.ATLAS_DATABASE)
   let mega_connect = await connectToMega()
   
   const collection = db_connect.collection("Participant")
@@ -92,7 +92,7 @@ recordRoutes.route("/record/add").post(upload.single("paymentAttachment"), async
  
 // Update record
 recordRoutes.route("/record/update/:id").post(async (req, res) => {
-  let db_connect = connectToMongo().db(process.env.ATLAS_DATABASE)
+  let db_connect = await connectToMongo().db(process.env.ATLAS_DATABASE)
 
   let myquery = { _id: ObjectId(req.params.id) }
   let newvalues = {
@@ -116,7 +116,7 @@ recordRoutes.route("/record/update/:id").post(async (req, res) => {
  
 // Delete record
 recordRoutes.route("/record//delete/:id").delete(async (req, res) => {
-  let db_connect = connectToMega().db(process.env.ATLAS_DATABASE)
+  let db_connect = await connectToMega().db(process.env.ATLAS_DATABASE)
 
   let myquery = { _id: ObjectId(req.params.id) }
   const result = await db_connect

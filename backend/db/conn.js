@@ -6,8 +6,9 @@ const { MongoClient } = require("mongodb")
 // var _db
 // var _megaCloud
 
-function connectToMongo() {
+async function connectToMongo() {
   const client = new MongoClient(process.env.ATLAS_URI, { useNewUrlParser: true, useUnifiedTopology: true})
+  await client.connect()
   
   return client
 }
