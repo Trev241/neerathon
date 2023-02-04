@@ -9,7 +9,7 @@ const { MongoClient } = require("mongodb")
 function connectToMongo() {
   const client = new MongoClient(process.env.ATLAS_URI, { useNewUrlParser: true, useUnifiedTopology: true})
   
-  return client.db(process.env.ATLAS_DATABASE)
+  return client
 }
 
 async function connectToMega() {
