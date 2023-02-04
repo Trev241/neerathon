@@ -46,6 +46,7 @@ recordRoutes.route("/record/:id").get(function (req, res) {
 // This section will help you create a new record.
 // recordRoutes.route("/record/add").post(async function (req, response) {
 recordRoutes.route("/record/add").post(upload.single("paymentAttachment"), async (req, response, error) => {
+  const file = req.file 
   let db_connect, mega_connect
 
   db_connect = new MongoClient(process.env.ATLAS_URI, { useNewUrlParser: true, useUnifiedTopology: true }).db(process.env.ATLAS_DATABASE)
@@ -65,7 +66,7 @@ recordRoutes.route("/record/add").post(upload.single("paymentAttachment"), async
   };
   
   const filename = `${req.body.name}+${req.body.email}.png`
-  await mega_connect.upload(filename, Buffer.from(req.file.buffer, 'base64')).complete
+  await mega_connect.upload(filename, Buffer.from(file.buffer, 'base64')).complete
   console.log(`Saved image as ${filename}`)
   
   db_connect.collection("Participant").insertOne(myobj, function (err, res) {
