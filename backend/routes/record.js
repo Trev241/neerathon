@@ -6,7 +6,7 @@ const express = require("express")
 const recordRoutes = express.Router()
  
 // This will help us connect to the database
-const dbo = require("../db/conn") 
+const { connectToMongo, connectToMega } = require("../db/conn") 
 
 const { Storage } = require("megajs")
 
@@ -49,11 +49,14 @@ recordRoutes.route("/record/add").post(upload.single("paymentAttachment"), async
   const file = req.file 
   let db_connect, mega_connect
 
-  db_connect = new MongoClient(process.env.ATLAS_URI, { useNewUrlParser: true, useUnifiedTopology: true }).db(process.env.ATLAS_DATABASE)
-  mega_connect = await new Storage({
-    email: process.env.MEGA_EMAIL,
-    password: process.env.MEGA_PASSWORD
-  }).ready
+  // db_connect = new MongoClient(process.env.ATLAS_URI, { useNewUrlParser: true, useUnifiedTopology: true }).db(process.env.ATLAS_DATABASE)
+  // mega_connect = await new Storage({
+  //   email: process.env.MEGA_EMAIL,
+  //   password: process.env.MEGA_PASSWORD
+  // }).ready
+
+  db_connect = connectToMongo()
+  mega_connect = await connectToMega()
 
   let myobj = {
     name: req.body.name,
@@ -71,7 +74,8 @@ recordRoutes.route("/record/add").post(upload.single("paymentAttachment"), async
     const filename = `${res.insertedId} (${req.body.name}|${req.body.email}).png`
     await mega_connect.upload(filename, Buffer.from(file.buffer, 'base64')).complete
     console.log(`Saved image to MEGA as ${filename}`)
-  
+    console.log("Registration was successful")
+
     return response.json(res)
   })
 })
