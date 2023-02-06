@@ -2,7 +2,7 @@ import React from "react"
 
 function CallbackPage() {
   return (
-    <></>
+    <>Redirecting...</>
   )
 }
 
