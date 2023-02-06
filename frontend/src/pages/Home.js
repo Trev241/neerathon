@@ -140,7 +140,7 @@ function Home() {
           </Row>
           <Row>
             <Col>
-              <h7 class="lead">Early bird prices are in effect for a limited time!</h7>
+              <p className="lead">Early bird prices are in effect for a limited time!</p>
             </Col>
           </Row>
         </Container>
