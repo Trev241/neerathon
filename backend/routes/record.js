@@ -17,11 +17,20 @@ const upload = multer({
   limits: {fileSize: 1000000}
 })
 
+// Authentication
+const { auth } = require("express-oauth2-jwt-bearer")
+// Authorization middleware. When used, the Access Token must
+// exist and be verified against the Auth0 JSON Web Key Set.
+const jwtCheck = auth({
+  audience: process.env.AUTH0_API_BASE_URL,
+  issuerBaseURL: process.env.AUTH0_ISSUER_BASE_URL,
+})
+
 // UUIDv4 
 const { v4: uuidv4 } = require("uuid") 
 
 // Fetch all records
-recordRoutes.route("/record").get(async (req, res) => {
+recordRoutes.route("/record").get(jwtCheck, async (req, res) => {
   let client = await connectToMongo()
   let db_connect = client.db(process.env.ATLAS_DATABASE)
 
@@ -34,7 +43,7 @@ recordRoutes.route("/record").get(async (req, res) => {
 })
  
 // Fetch record by ID
-recordRoutes.route("/record/id/:id").get(async (req, res) => {
+recordRoutes.route("/record/id/:id").get(jwtCheck, async (req, res) => {
   let client = await connectToMongo()
   let db_connect = client.db(process.env.ATLAS_DATABASE)
 
@@ -98,42 +107,42 @@ recordRoutes.route("/record/add").post(upload.single("paymentAttachment"), async
 })
  
 // Update record
-recordRoutes.route("/record/update/:id").post(async (req, res) => {
-  let client = await connectToMongo()
-  let db_connect = client.db(process.env.ATLAS_DATABASE)
+// recordRoutes.route("/record/update/:id").post(async (req, res) => {
+//   let client = await connectToMongo()
+//   let db_connect = client.db(process.env.ATLAS_DATABASE)
 
-  let myquery = { _id: ObjectId(req.params.id) }
-  let newvalues = {
-    $set: {
-      name: req.body.name,
-      email: req.body.email,
-      age: req.body.age,
-      isJosephite: req.body.isJosephite,
-      registerNumber: req.body.registerNumber,
-      gender: req.body.gender,
-      event: req.body.event,
-      transactionId: req.body.transactionId
-    },
-  }
+//   let myquery = { _id: ObjectId(req.params.id) }
+//   let newvalues = {
+//     $set: {
+//       name: req.body.name,
+//       email: req.body.email,
+//       age: req.body.age,
+//       isJosephite: req.body.isJosephite,
+//       registerNumber: req.body.registerNumber,
+//       gender: req.body.gender,
+//       event: req.body.event,
+//       transactionId: req.body.transactionId
+//     },
+//   }
   
-  const result = await db_connect
-    .collection("Participant")
-    .updateOne(myquery, newvalues)
+//   const result = await db_connect
+//     .collection("Participant")
+//     .updateOne(myquery, newvalues)
 
-  return res.json(result)
-})
+//   return res.json(result)
+// })
  
 // Delete record
-recordRoutes.route("/record//delete/:id").delete(async (req, res) => {
-  let client = await connectToMongo()
-  let db_connect = client.db(process.env.ATLAS_DATABASE)
+// recordRoutes.route("/record//delete/:id").delete(async (req, res) => {
+//   let client = await connectToMongo()
+//   let db_connect = client.db(process.env.ATLAS_DATABASE)
 
-  let myquery = { _id: ObjectId(req.params.id) }
-  const result = await db_connect
-    .collection("Participant")
-    .deleteOne(myquery)
+//   let myquery = { _id: ObjectId(req.params.id) }
+//   const result = await db_connect
+//     .collection("Participant")
+//     .deleteOne(myquery)
 
-  return res.json(result)
-})
+//   return res.json(result)
+// })
 
 module.exports = recordRoutes
