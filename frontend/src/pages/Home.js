@@ -85,6 +85,8 @@ function Home() {
                 <li>General (Male) 5 KM</li>
                 <li>General (Female) 2 KM</li>
                 <li>General (Female) 5 KM</li>
+                <li>Senior Citizen (Male) 2 KM</li>
+                <li>Senior Citizen (Male) 5 KM</li>
                 <li>Senior Citizen (Female) 2 KM</li>
                 <li>Senior Citizen (Female) 5 KM</li>
               </ul>
@@ -99,8 +101,8 @@ function Home() {
           <Row>
             <Col>
               <p>
-                If you perform well and place in the <b>top three positions</b> of your category, then we have exiciting cash prizes and medals for you! And don't be disappointed if you don't, you still 
-                get goodies including a ceritificate of participation, a T-shirt and a beautiful breakfast.
+                If you perform well and place in the <b>top three positions</b> of your category, then we have exiciting cash prizes and a medal waiting for you! And don't be disappointed if you don't, you still 
+                get goodies including a Certificate of Participation, a T-shirt and a beautiful breakfast.
               </p>
             </Col>
           </Row>
@@ -129,31 +131,38 @@ function Home() {
               The Wildlife Awareness Conservation Club of St. Joseph's University is excited to bring forth to you this year's edition of Neerathon.
             </p>
           </Row>
-          <Row>
+          <Row className="mb-4">
             <Col>
-              <Button className="mb-3 py-3 px-5 btn-info" onClick={() => navigate('/register')}>
+              <Button className="py-3 px-5 btn-info" onClick={() => navigate('/register')}>
                 <h5 className="my-0 register-text">Register now</h5>
               </Button>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <p className="lead">Early bird prices are in effect for a limited time!</p>
             </Col>
           </Row>
         </Container>
       </div>
 
       <Container>
-        <Row className="my-5 text-center bg-dark text-white rounded py-3">
+        <Row className="my-5 text-center">
           <Col>
-            <p className="display-2 mb-1">
-              {
-                (time.seconds === "" && time.minutes === "" && time.hours === "" && time.days === "") ? (
-                  <Placeholder className="w-25" />
-                ) : (
-                  <>
-                    {time.days}d {time.hours}h {time.minutes}m {time.seconds}s
-                  </>
-                )
-              }
-            </p>
-            <p className="display-6">before the big day</p>
+            <div className="bg-dark text-white rounded py-3">
+              <p className="display-2 mb-1">
+                {
+                  (time.seconds === "" && time.minutes === "" && time.hours === "" && time.days === "") ? (
+                    <Placeholder className="w-50" />
+                  ) : (
+                    <>
+                      {time.days}d {time.hours}h {time.minutes}m {time.seconds}s
+                    </>
+                  )
+                }
+              </p>
+              <p className="display-6">before the big day</p>
+            </div>
           </Col>
         </Row>
         <Row id="details">
