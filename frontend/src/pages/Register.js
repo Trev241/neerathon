@@ -340,18 +340,16 @@ function Register() {
 
           <Row className="my-4 justify-content-center">
             <Col lg className="d-flex justify-content-center my-1">
-              <Button className="w-100" variant="success" type="submit">
+              <Button className="w-100" variant="success" disabled={submitting} type="submit">
                 {
                   (submitting) ? (
-                    <>
-                      <Spinner
-                        as="span"
-                        animation="border"
-                        size="sm"
-                        role="status"
-                        aria-hidden="true"
-                      />
-                    </>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
                   ) : "Submit"
                 }
               </Button>

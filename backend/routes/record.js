@@ -39,6 +39,7 @@ recordRoutes.route("/record").get(jwtCheck, async (req, res) => {
     .find({})
     .toArray()
 
+  await client.close()
   return res.json(records)
 })
  
@@ -51,9 +52,11 @@ recordRoutes.route("/record/id/:id").get(jwtCheck, async (req, res) => {
     .collection("Participant")
     .findOne({ _id: ObjectId(req.params.id )})
   
+  await client.close()
   return res.json(record)
 })
 
+// Fetch record by UUID
 recordRoutes.route("/record/uuid/:uuid").get(async (req, res) => {
   let client = await connectToMongo()
   let db_connect = client.db(process.env.ATLAS_DATABASE)
@@ -62,6 +65,7 @@ recordRoutes.route("/record/uuid/:uuid").get(async (req, res) => {
     .collection("Participant")
     .findOne({ uuid: req.params.uuid })
   
+  await client.close()
   return res.json(record)
 })
 
@@ -103,9 +107,10 @@ recordRoutes.route("/record/add").post(upload.single("paymentAttachment"), async
   // Append UUID to response
   res["uuid"] = newUuid
 
+  await client.close()
   return response.json(res)
 })
- 
+
 // Update record
 // recordRoutes.route("/record/update/:id").post(async (req, res) => {
 //   let client = await connectToMongo()

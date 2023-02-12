@@ -3,18 +3,23 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { BrowserRouter } from 'react-router-dom';
+import Auth0ProviderWithNavigate from './Auth0ProviderWithNavigate';
+import Navigation from './components/Navigation';
+import Footer from './components/Footer';
+
 // Imprting customized Bootstrap styles
 import './index.css';
 import './custom.scss';
-import { BrowserRouter } from 'react-router-dom';
-import Auth0ProviderWithNavigate from './Auth0ProviderWithNavigate';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Auth0ProviderWithNavigate>
+        <Navigation />
         <App />
+        <Footer />
       </Auth0ProviderWithNavigate>
     </BrowserRouter>
   </React.StrictMode>

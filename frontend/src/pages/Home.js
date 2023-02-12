@@ -9,8 +9,6 @@ import Placeholder from 'react-bootstrap/Placeholder'
 import Nav from 'react-bootstrap/Nav'
 
 import HomeCarousel from '../components/HomeCarousel'
-import Navigation from '../components/Navigation'
-import Footer from '../components/Footer'
 
 import './Home.css'
 
@@ -118,7 +116,7 @@ function Home() {
 
   return (
     <>
-      <Navigation />
+      {/* <Navigation /> */}
       <HomeCarousel />
 
       <div className="mb-5 py-5 banner bg-gradient text-white">
@@ -146,7 +144,7 @@ function Home() {
         </Container>
       </div>
 
-      <Container>
+      <Container className="mb-5">
         <Row className="my-5 text-center">
           <Col>
             <div className="bg-dark text-white rounded py-3">
@@ -221,7 +219,7 @@ function Home() {
         </Row>
       </Container>
 
-      <Footer />
+      {/* <Footer /> */}
     </>
   )
 }

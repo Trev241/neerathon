@@ -1,34 +1,32 @@
 import React from 'react'
 import Container from 'react-bootstrap/esm/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import ListGroup from 'react-bootstrap/ListGroup'
+
+import "./Footer.css"
 
 function Footer() {
   return (
-    <footer className="bg-dark py-2 mt-5 text-white-50">
+    <footer className="bg-dark py-2 text-white-50 footer">
       <Container>
-        <Row className="pt-4">
-          <Col md>
-            <ListGroup horizontal>
-              <ListGroup.Item className="bg-dark text-white-50 border-0">Contact us:</ListGroup.Item>
-              <ListGroup.Item className="bg-dark text-white-50 border-0">+91 95602 18478</ListGroup.Item>
-              <ListGroup.Item className="bg-dark text-white-50 border-0">+91 80161 68216</ListGroup.Item>
-              <ListGroup.Item className="bg-dark text-white-50 border-0">+91 73490 67404</ListGroup.Item>
-            </ListGroup>
-          </Col>
-          <Col md>
-            <p className="text-end">Follow us on <a href="https://www.instagram.com">Instagram</a>.</p>
-          </Col>
-        </Row>
+        <div className="text-center py-4">
+          <div className="text-center">
+            Contact us:
+            <span className="mx-2">
+              (+91) 9560218478, 
+            </span>
+            <span className="me-2">
+              (+91) 8016168216, 
+            </span>
+            <span className='me-2'>
+              (+91) 7349067404
+            </span>
+          </div>
+          <hr className="mt-4 mb-3" />
+          <div>
+            <a href="https://github.com/Trev241/neerathon/issues">Report an issue</a>
+            <p className="p-0 m-0">Follow us on <a href="https://www.instagram.com">Instagram</a></p>
+          </div>
+        </div>
 
-        <hr />
-
-        <Row>
-          <Col className="d-flex justify-content-center">
-            <p><a href="https://github.com/Trev241/neerathon/issues">Report an issue</a></p>
-          </Col>
-        </Row>
       </Container>
     </footer>
   )
