@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button'
 import Accordion from 'react-bootstrap/Accordion'
 import Placeholder from 'react-bootstrap/Placeholder'
 import Nav from 'react-bootstrap/Nav'
+import GitHubButton from 'react-github-btn'
 
 import HomeCarousel from '../components/HomeCarousel'
 
@@ -216,6 +217,25 @@ function Home() {
             </Accordion.Item>
           </Accordion>
           <p className="text-muted">Don't see your question here? It's okay, you can always reach out to us through our socials!</p>
+        </Row>
+        
+        <hr className="my-5" />
+                
+        <Row id="about">
+          <p className="display-4 mb-3">About the site</p>
+          <p className="lead">
+            This website was developed using React.js and is hosted on Vercel. The code base for the website is open source and is available on GitHub. 
+            If you like what you see, then you could <a href="https://github.com/Trev241/neerathon">star</a> the repository using the button below! You can
+            also <a href="https://github.com/Trev241">follow</a> and check out my other stuff as well.
+          </p>
+          <div className="d-flex">
+            <div className="me-2">
+              <GitHubButton href="https://github.com/Trev241/neerathon" data-icon="octicon-star" data-size="large" aria-label="Star Trev241/neerathon on GitHub">Star</GitHubButton>
+            </div>
+            <div>
+              <GitHubButton href="https://github.com/Trev241" data-size="large" aria-label="Follow @Trev241 on GitHub">Follow @Trev241</GitHubButton>
+            </div>
+          </div>
         </Row>
       </Container>
 

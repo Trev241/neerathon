@@ -5,7 +5,7 @@ import "./Footer.css"
 
 function Footer() {
   return (
-    <footer className="bg-dark py-2 text-white-50 footer">
+    <footer className="bg-dark py- text-white-50 footer">
       <Container>
         <div className="text-center py-4">
           <div className="text-center">
@@ -20,9 +20,9 @@ function Footer() {
               (+91) 7349067404
             </span>
           </div>
-          <hr className="mt-4 mb-3" />
+          <hr className="mt-3 mb-3" />
           <div>
-            <a href="https://github.com/Trev241/neerathon/issues">Report an issue</a>
+            <a href="https://github.com/Trev241/neerathon/issues">Report an issue</a> | <a href="https://github.com/Trev241/neerathon">Visit the source</a>
             <p className="p-0 m-0">Follow us on <a href="https://www.instagram.com">Instagram</a></p>
           </div>
         </div>

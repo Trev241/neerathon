@@ -97,9 +97,9 @@ function ParticipantList() {
         <Form className="mb-3 p-3 border rounded">
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm={2}>Entries per page</Form.Label>
-            <Col sm={1}>
+            <Col sm={3}>
               <Form.Select
-                as={Col}
+                className="mb-2"
                 value={rowsPerPage}
                 onChange={(e) => setRowsPerPage(e.target.value)}
               >
