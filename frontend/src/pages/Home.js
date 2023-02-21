@@ -101,7 +101,7 @@ function Home() {
             <Col>
               <p>
                 If you perform well and place in the <b>top three positions</b> of your category, then we have exiciting cash prizes and a medal waiting for you! And don't be disappointed if you don't, you still 
-                get goodies including a Certificate of Participation, a T-shirt and a beautiful breakfast.
+                get goodies including a Certificate of Participation and a beautiful breakfast.
               </p>
             </Col>
           </Row>
