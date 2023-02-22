@@ -244,7 +244,7 @@ function Register() {
                           type="text" 
                           readOnly 
                           className="bg-white"
-                          value={"₹ " + (form.event === "1" ? 49 : form.event === "2" ? 99 : "")}
+                          value={"₹ " + (form.event === "1" ? 199 : form.event === "2" ? 299 : "")}
                         />
                     </FloatingLabel>
                   </Col>
@@ -366,7 +366,7 @@ function Register() {
 
       <PaymentModal 
         show={paymentModalShow}
-        fee={form.event === "1" ? 49 : 99}
+        fee={form.event === "1" ? 199 : 299}
         onHide={() => setPaymentModalShow(false)}
       />
 

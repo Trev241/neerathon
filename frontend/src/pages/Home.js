@@ -137,11 +137,6 @@ function Home() {
               </Button>
             </Col>
           </Row>
-          <Row>
-            <Col>
-              <p className="lead">Early bird prices are in effect for a limited time!</p>
-            </Col>
-          </Row>
         </Container>
       </div>
 
