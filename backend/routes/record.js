@@ -29,6 +29,9 @@ const jwtCheck = auth({
 // UUIDv4 
 const { v4: uuidv4 } = require("uuid") 
 
+// Suspend route
+const suspendAdditions = true
+
 // Fetch all records
 recordRoutes.route("/record").get(jwtCheck, async (req, res) => {
   let client = await connectToMongo()
@@ -71,6 +74,12 @@ recordRoutes.route("/record/uuid/:uuid").get(async (req, res) => {
 
 // Create record
 recordRoutes.route("/record/add").post(upload.single("paymentAttachment"), async (req, response, error) => {
+  if (suspendAdditions) {
+    return response.status(503).json({
+      message: "Server is no longer accepting requests."
+    })
+  }
+
   const file = req.file 
 
   let client = await connectToMongo()

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import Button from 'react-bootstrap/Button'
+// import Button from 'react-bootstrap/Button'
 import Accordion from 'react-bootstrap/Accordion'
 import Placeholder from 'react-bootstrap/Placeholder'
 import Nav from 'react-bootstrap/Nav'
@@ -20,10 +20,9 @@ function Home() {
     hours: "",
     days: ""
   })
-
   const [detailsTab, setDetailsTab] = useState(0)
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   // Find time remaining and commence countdown when component is mounted
   useEffect(() => {
@@ -51,61 +50,56 @@ function Home() {
   switch (detailsTab) {
     case 0:
       details = (
-        <p className="lead mt-4">The event will take place on <b>26th February 2023</b> at <b>5:30 AM</b> in the morning. We have breakfast ready for you so don't worry about going hungry.</p>
+        <p className="lead mt-4">
+          The event will take place on <b>26th February 2023</b> at <b>5:30 AM</b> in the morning. 
+          We have breakfast ready for you so don't worry about going hungry.
+        </p>
       )
       break
     case 1:
       details = (
-        <Container>
-          <Row>
-            <p className="lead mt-4">We don't want you to get lost during the run! Here's a map for you so that you don't end up in Majestic or MG Road.</p>
-            <p className="text-muted">Psst! You can zoom in to have a better look.</p>
-          </Row>
-          <Row>
-            <Col>
-              <div className="ratio ratio-4x3">
-                <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1PF05_9PTfu6AAQpWWz51os0SfMAUD4A&ehbc=2E312F" title="Neerathon Routes"></iframe>
-              </div>
-            </Col>
-          </Row>
-        </Container>
+        <div>
+          <p className="lead mt-4">
+            We don't want you to get lost during the run! Here's a map for you so that you don't end up in Majestic or MG Road.
+          </p>
+          <p className="text-muted">Psst! You can zoom in to have a better look.</p>
+          <div className="ratio ratio-4x3">
+            <iframe 
+              src="https://www.google.com/maps/d/u/0/embed?mid=1PF05_9PTfu6AAQpWWz51os0SfMAUD4A&ehbc=2E312F" 
+              title="Neerathon Routes" 
+            />
+          </div>
+        </div>
       ) 
       break
     case 2:
       details = (
-        <Container className="lead mt-4">
-          <Row>
-            <Col>
-              <p>Here is a list of all the participation categories.</p>
-              <ul>
-                <li>Children (below 12 years) 2 KM</li>
-                <li>Children (below 12 years) 5 KM</li>
-                <li>General (Male) 2 KM</li>
-                <li>General (Male) 5 KM</li>
-                <li>General (Female) 2 KM</li>
-                <li>General (Female) 5 KM</li>
-                <li>Senior Citizen (Male) 2 KM</li>
-                <li>Senior Citizen (Male) 5 KM</li>
-                <li>Senior Citizen (Female) 2 KM</li>
-                <li>Senior Citizen (Female) 5 KM</li>
-              </ul>
-            </Col>
-          </Row>
-        </Container>
+        <div className="lead mt-4">
+          <p>Here is a list of all the participation categories.</p>
+          <ul>
+            <li>Children (below 12 years) 2 KM</li>
+            <li>Children (below 12 years) 5 KM</li>
+            <li>General (Male) 2 KM</li>
+            <li>General (Male) 5 KM</li>
+            <li>General (Female) 2 KM</li>
+            <li>General (Female) 5 KM</li>
+            <li>Senior Citizen (Male) 2 KM</li>
+            <li>Senior Citizen (Male) 5 KM</li>
+            <li>Senior Citizen (Female) 2 KM</li>
+            <li>Senior Citizen (Female) 5 KM</li>
+          </ul>
+        </div>
       )
       break
     case 3:
       details = (
-        <Container className="lead mt-4">
-          <Row>
-            <Col>
-              <p>
-                If you perform well and place in the <b>top three positions</b> of your category, then we have exiciting cash prizes and a medal waiting for you! And don't be disappointed if you don't, you still 
-                get goodies including a Certificate of Participation and a beautiful breakfast.
-              </p>
-            </Col>
-          </Row>
-        </Container>
+        <div className="lead mt-4">
+          <p>
+            If you perform well and place in the <b>top three positions</b> of your category, then we have exiciting 
+            cash prizes and a medal waiting for you! And don't be disappointed if you don't, you still 
+            get goodies including a Certificate of Participation and a beautiful breakfast.
+          </p>
+        </div>
       )
       break
     default:
@@ -117,10 +111,9 @@ function Home() {
 
   return (
     <>
-      {/* <Navigation /> */}
       <HomeCarousel />
 
-      <div className="mb-5 py-5 banner bg-gradient text-white">
+      <div className="py-5 banner bg-gradient text-white">
         <Container>
           <Row className="mb-4">
             <h1 className="display-1">
@@ -130,17 +123,26 @@ function Home() {
               The Wildlife Awareness Conservation Club of St. Joseph's University is excited to bring forth to you this year's edition of Neerathon.
             </p>
           </Row>
-          <Row className="mb-4">
+          {/* <Row className="mb-4">
             <Col>
-              <Button className="py-3 px-5 btn-info" onClick={() => navigate('/register')}>
-                <h5 className="my-0 register-text">Register now</h5>
+              <Button disabled className="py-3 px-5 btn-info" onClick={() => navigate('/register')}>
+                <h5 className="my-0 register-text">Registrations closed</h5>
               </Button>
             </Col>
-          </Row>
+          </Row> */}
         </Container>
       </div>
 
       <Container className="mb-5">
+        <Row className="my-5">
+          <Col>
+            <div className="bg-warning rounded p-4 text-center">
+              <h4>Online registrations are now closed</h4>
+              <div className="lead">It's still not too late! On-spot registrations will be open on the day of the event.</div>
+            </div>
+          </Col>
+        </Row>
+
         <Row className="my-5 text-center">
           <Col>
             <div className="bg-dark text-white rounded py-3">
@@ -159,6 +161,7 @@ function Home() {
             </div>
           </Col>
         </Row>
+
         <Row id="details">
           <p className="display-4">Event Details</p>
           <Nav justify variant="tabs">
@@ -233,8 +236,6 @@ function Home() {
           </div>
         </Row>
       </Container>
-
-      {/* <Footer /> */}
     </>
   )
 }

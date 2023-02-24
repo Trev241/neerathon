@@ -12,17 +12,22 @@ import PaymentModal from '../components/PaymentModel'
 
 import './Register.css'
 import ErrorModal from '../components/ErrorModal'
+import RegisterClosedModal from '../components/RegisterClosedModal'
 
 function Register() {
   const [validated, setValidated] = useState(false)
   // const [idSizeExceeded, setIdSizeExceeded] = useState(false)
   const [paySizeExceeded, setPaySizeExceeded] = useState(false)
-  const [warnModalShow, setWarnModalShow] = useState(false)
   const [warnContent, setWarnContent] = useState()
-  const [paymentModalShow, setPaymentModalShow] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  
+  // Modals
+  const [warnModalShow, setWarnModalShow] = useState(false)
+  const [paymentModalShow, setPaymentModalShow] = useState(false)
+  const [closedModalShow] = useState(true)
 
   const FILE_SIZE_LIMIT = 1048576
+  const navigate = useNavigate()
   
   const [form, setForm] = useState({
     name: "",
@@ -35,8 +40,6 @@ function Register() {
     transactionId: "",
     paymentAttachment: ""
   })
-
-  const navigate = useNavigate()
 
   const updateForm = (value) => {
     setForm((prev) => {
@@ -104,7 +107,7 @@ function Register() {
 
           <Row className="mb-3">
             <Col>
-              <FloatingLabel as={Col} controlId="floatingName" label="Full name">
+              <FloatingLabel controlId="floatingName" label="Full name">
                 <Form.Control 
                   required 
                   type="text" 
@@ -146,6 +149,7 @@ function Register() {
                 />
               </FloatingLabel>
             </Col>
+
             <Col>
               <FloatingLabel controlId="floatingGender" label="Select your gender">
                   <Form.Select 
@@ -165,52 +169,50 @@ function Register() {
           
           <Row className="mb-3">
             <Col>
-              <Form.Group className="mb-2" controlId="formJosephite">
+              <Form.Group className="mb-3" controlId="formJosephite">
                 <Form.Check
                   type="checkbox" 
                   label="I am currently a student of St. Joseph's University" 
                   onClick={(e) => updateForm({ isJosephite: e.target.checked })}
                 />
               </Form.Group>
-              {
-                (form.isJosephite) ? (
-                  <>
-                    <FloatingLabel className="mb-2" controlId="floatingRegNo" label="Register Number">
-                      <Form.Control 
-                        required 
-                        disabled={!form.isJosephite} 
-                        type="text" 
-                        placeholder="e.g. 20BCAA27"
-                        className="bg-white"
-                        onChange={(e) => updateForm({ registerNumber: e.target.value })}
-                      />
-                    </FloatingLabel>
+              {(form.isJosephite) && (
+                <>
+                  <FloatingLabel className="mb-2" controlId="floatingRegNo" label="Register Number">
+                    <Form.Control 
+                      required 
+                      disabled={!form.isJosephite} 
+                      type="text" 
+                      placeholder="e.g. 20BCAA27"
+                      className="bg-white"
+                      onChange={(e) => updateForm({ registerNumber: e.target.value })}
+                    />
+                  </FloatingLabel>
 
-                    {/* <Form.Group controlId="formId">
-                      <Form.Label>Upload student ID card (Limit: 1 MB)</Form.Label>
-                      <Form.Control 
-                        required 
-                        type="file" 
-                        disabled={!form.isJosephite}
-                        isInvalid={idSizeExceeded}
-                        className="bg-white"
-                        onChange={(e) => {
-                          setIdSizeExceeded(e.target.files[0].size > FILE_SIZE_LIMIT)
+                  {/* <Form.Group controlId="formId">
+                    <Form.Label>Upload student ID card (Limit: 1 MB)</Form.Label>
+                    <Form.Control 
+                      required 
+                      type="file" 
+                      disabled={!form.isJosephite}
+                      isInvalid={idSizeExceeded}
+                      className="bg-white"
+                      onChange={(e) => {
+                        setIdSizeExceeded(e.target.files[0].size > FILE_SIZE_LIMIT)
 
-                          const fr = new FileReader()
-                          fr.readAsDataURL(e.target.files[0])
-                          fr.onload = () => updateForm({ josephiteDetails: { ...form.josephiteDetails, idAttachment: fr.result } })
-                        }}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {
-                          (idSizeExceeded) ? "File upload limit exceeded!" : "Error"
-                        }
-                      </Form.Control.Feedback>
-                    </Form.Group> */}
-                  </>
-                ) : <></>
-              }
+                        const fr = new FileReader()
+                        fr.readAsDataURL(e.target.files[0])
+                        fr.onload = () => updateForm({ josephiteDetails: { ...form.josephiteDetails, idAttachment: fr.result } })
+                      }}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {
+                        (idSizeExceeded) ? "File upload limit exceeded!" : "Error"
+                      }
+                    </Form.Control.Feedback>
+                  </Form.Group> */}
+                </>
+              )}
             </Col>
           </Row>
 
@@ -234,85 +236,83 @@ function Register() {
             </Col>
           </Row>
           
-          {
-            (form.event !== "") ? (
-              <>
-                <Row className="mb-3">
-                  <Col>
-                    <FloatingLabel controlId="floatingFee" label="Registration Fee">
-                        <Form.Control 
-                          type="text" 
-                          readOnly 
-                          className="bg-white"
-                          value={"₹ " + (form.event === "1" ? 199 : form.event === "2" ? 299 : "")}
-                        />
-                    </FloatingLabel>
-                  </Col>
-                </Row>
-
-                <Row className="mb-4">
-                  <Col>
-                    <Button 
-                      className="w-100 py-3" 
-                      onClick={() => setPaymentModalShow(true)}
-                    >
-                      Click here to pay
-                    </Button>
-                  </Col>
-                </Row>
-
-                <Row className="mb-1 mt-5">
-                  <p className="display-6">Enter your transaction details</p>
-                </Row>
-
-                <Row className="mb-3">
-                  <Col>
-                    <FloatingLabel as={Col} controlId="floatingTransactionId" label="UPI Transaction ID">
+          {(form.event !== "") && (
+            <>
+              <Row className="mb-3">
+                <Col>
+                  <FloatingLabel controlId="floatingFee" label="Registration Fee">
                       <Form.Control 
-                        required 
                         type="text" 
-                        placeholder="ID" 
-                        name="transactionId" 
+                        readOnly 
                         className="bg-white"
-                        // value={form.name} 
-                        onChange={(e) => updateForm({ transactionId: e.target.value})} 
+                        value={"₹ " + (form.event === "1" ? 199 : form.event === "2" ? 299 : "")}
                       />
-                    </FloatingLabel>
-                  </Col>
-                </Row>
+                  </FloatingLabel>
+                </Col>
+              </Row>
 
-                <Row>
-                  <Col>
-                    <Form.Group controlId="formPayment">
-                      <Form.Label>Upload transaction screenshot (Limit: 1 MB)</Form.Label>
-                      <Form.Control 
-                        className="bg-white"
-                        required 
-                        type="file"
-                        accept="image/*"
-                        isInvalid={paySizeExceeded}
-                        onChange={(e) => {
-                          setPaySizeExceeded(e.target.files[0].size > FILE_SIZE_LIMIT)
+              <Row className="mb-4">
+                <Col>
+                  <Button 
+                    className="w-100 py-3" 
+                    onClick={() => setPaymentModalShow(true)}
+                  >
+                    Click here to pay
+                  </Button>
+                </Col>
+              </Row>
 
-                          // const fr = new FileReader()
-                          // fr.readAsDataURL(e.target.files[0])
-                          // fr.onload = () => updateForm({ paymentAttachment: fr.result })
+              <Row className="mb-1 mt-5">
+                <p className="display-6">Enter your transaction details</p>
+              </Row>
 
-                          if (!paySizeExceeded)
-                            updateForm({ paymentAttachment: e.target.files[0] })
-                        }}
-                      />
-                      <Form.Control.Feedback type="invalid">
-                        {paySizeExceeded ? "File upload limit exceeded!" : "This field is necessary!"}
-                      </Form.Control.Feedback>
-                    </Form.Group>
-                  </Col>
-                </Row>
-              </>
-            ) : <></>
-          }
+              <Row className="mb-3">
+                <Col>
+                  <FloatingLabel as={Col} controlId="floatingTransactionId" label="UPI Transaction ID">
+                    <Form.Control 
+                      required 
+                      type="text" 
+                      placeholder="ID" 
+                      name="transactionId" 
+                      className="bg-white"
+                      // value={form.name} 
+                      onChange={(e) => updateForm({ transactionId: e.target.value})} 
+                    />
+                  </FloatingLabel>
+                </Col>
+              </Row>
 
-          <Row className="mt-4">
+              <Row>
+                <Col>
+                  <Form.Group controlId="formPayment">
+                    <Form.Label>Upload transaction screenshot (Limit: 1 MB)</Form.Label>
+                    <Form.Control 
+                      className="bg-white"
+                      required 
+                      type="file"
+                      accept="image/*"
+                      isInvalid={paySizeExceeded}
+                      onChange={(e) => {
+                        setPaySizeExceeded(e.target.files[0].size > FILE_SIZE_LIMIT)
+
+                        // const fr = new FileReader()
+                        // fr.readAsDataURL(e.target.files[0])
+                        // fr.onload = () => updateForm({ paymentAttachment: fr.result })
+
+                        if (!paySizeExceeded)
+                          updateForm({ paymentAttachment: e.target.files[0] })
+                      }}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      {paySizeExceeded ? "File upload limit exceeded!" : "This field is necessary!"}
+                    </Form.Control.Feedback>
+                  </Form.Group>
+                </Col>
+              </Row>
+            </>
+          )}
+
+          <Row className="mt-5">
             <Col>
               <p>
                 Please note that
@@ -340,7 +340,13 @@ function Register() {
 
           <Row className="my-4 justify-content-center">
             <Col lg className="d-flex justify-content-center my-1">
-              <Button className="w-100" variant="success" disabled={submitting} type="submit">
+              <Button 
+                className="w-100" 
+                variant="success" 
+                // disabled={submitting} 
+                disabled
+                type="submit"
+              >
                 {
                   (submitting) ? (
                     <Spinner
@@ -354,15 +360,22 @@ function Register() {
                 }
               </Button>
             </Col>
+
             {/* <Col lg className="d-flex justify-content-center my-1">
               <Button className="w-100" variant="outline-danger" type="reset">Reset</Button>
             </Col> */}
+
             <Col lg className="d-flex justify-content-center my-1">
               <Button className="w-100" variant="outline-danger" onClick={() => navigate('/')}>Back</Button>
             </Col>
           </Row>
         </Form>
       </Container>
+
+      <RegisterClosedModal 
+        show={closedModalShow}
+        onHide={() => navigate("/")}
+      />
 
       <PaymentModal 
         show={paymentModalShow}
