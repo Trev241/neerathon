@@ -13,7 +13,6 @@ function ParticipantList() {
   const { getAccessTokenSilently } = useAuth0()
 
   const [registrations, setRegistrations] = useState([])
-  const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
   const [matches, setMatches] = useState(0)
   
@@ -47,7 +46,6 @@ function ParticipantList() {
       }
     }
 
-    setLoading(true)
     fetchData()
   }, [getAccessTokenSilently])
 
@@ -88,7 +86,6 @@ function ParticipantList() {
     setPage(Math.max(0, Math.min(page, maxPages - 1)))
 
     setRows(rows.slice(page * rowsPerPage, Math.min(rows.length, (page + 1) * rowsPerPage)))
-    setLoading(false)
   }, [registrations, rowsPerPage, page, pages, searchQuery, sortBy, order])
 
   return (
@@ -172,35 +169,34 @@ function ParticipantList() {
 
         <Row>
           <Col>
-            {loading ? (
+            <Table responsive striped hover>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Object ID</th>
+                  <th>UUID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Age</th>
+                  <th>Studies at SJU?</th>
+                  <th>SJU Reg. Number</th>
+                  <th>Gender</th>
+                  <th>Event</th>
+                  <th>UPI Transaction ID</th>
+                  <th>Time of Registration</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {rows && rows}
+              </tbody>
+            </Table>
+            {rows?.length === 0 && 
               <div className="d-flex justify-content-center mb-3">
-                <Spinner className="m-5 p-5" animation="border" role="status">
+                <Spinner className="m-5 p-3" animation="border" role="status">
                   <span className="visually-hidden">Loading...</span>
                 </Spinner>
               </div>
-            ) : (
-              <Table responsive striped hover>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Object ID</th>
-                    <th>UUID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Age</th>
-                    <th>Studies at SJU?</th>
-                    <th>SJU Reg. Number</th>
-                    <th>Gender</th>
-                    <th>Event</th>
-                    <th>UPI Transaction ID</th>
-                    <th>Time of Registration</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {rows}
-                </tbody>
-              </Table>
-            )}
+            }
           </Col>
         </Row>
 
