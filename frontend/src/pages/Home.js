@@ -6,12 +6,14 @@ import Col from 'react-bootstrap/Col'
 // import Button from 'react-bootstrap/Button'
 import Accordion from 'react-bootstrap/Accordion'
 import Placeholder from 'react-bootstrap/Placeholder'
+import Alert from 'react-bootstrap/Alert'
 import Nav from 'react-bootstrap/Nav'
 import GitHubButton from 'react-github-btn'
 
 import HomeCarousel from '../components/HomeCarousel'
 
 import './Home.css'
+import { Link } from 'react-router-dom'
 
 function Home() {
   const [time, setTime] = useState({
@@ -22,6 +24,8 @@ function Home() {
     days: 0
   })
   const [detailsTab, setDetailsTab] = useState(0)
+  const [showRegistrationClosed, setShowRegistrationClosed] = useState(true)
+  const [showNotice, setShowNotice] = useState(true)
 
   // const navigate = useNavigate()
 
@@ -122,7 +126,8 @@ function Home() {
               <b>Neerathon 2023 is coming!</b>
             </h1>
             <p className="display-6">
-              The Wildlife Awareness Conservation Club of St. Joseph's University is excited to bring forth to you this year's edition of Neerathon.
+              The Wildlife Awareness Conservation Club of St. Joseph's University is excited to bring forth to you 
+              this year's edition of Neerathon.
             </p>
           </Row>
           {/* <Row className="mb-4">
@@ -136,14 +141,50 @@ function Home() {
       </div>
 
       <Container className="mb-5">
-        <Row className="my-5">
-          <Col>
-            <div className="bg-warning rounded p-4 text-center">
-              <h4>Online registrations are now closed</h4>
-              <div className="lead">It's still not too late! On-spot registrations will be open on the day of the event.</div>
-            </div>
-          </Col>
-        </Row>
+        {(showRegistrationClosed || showNotice) && 
+          <div className="my-5">
+            {showRegistrationClosed && 
+              <Alert className="mb-3" variant="warning" dismissible onClose={() => setShowRegistrationClosed(false)}>
+                <h4>Online registrations are now closed</h4>
+                <div className="lead">
+                  It's still not too late! On-spot registrations will be open on the day of the event. The registration fees
+                  have also been revised to <b>₹275/-</b> and <b>₹475/-</b> for the 2 KM and 5 KM races respectively.
+                </div>
+              </Alert>
+            }
+
+            {showNotice &&
+              <Alert dismissible onClose={() => setShowNotice(false)}>
+                <h4>Notice regarding T-shirts</h4>
+                <div className="lead">
+                  <p>
+                    We would like to apologize for the inconvenience caused on our part by not being able to provide T-shirts as promised. 
+                    Due to unforeseen logistical constraints, we will be unable to fulfill this commitment.
+                  </p>
+                  
+                  <p>
+                    We understand that the T-shirts were an important part of the event and we deeply regret that we were unable to deliver 
+                    on our promise. As organizers, we take full responsibility for the oversight and we would like to assure you that we 
+                    are taking steps to ensure that this does not happen again in the future. 
+                  </p>
+
+                  <p>
+                    We value and appreciate your participation in our event and would like to assure you that we are committed to making 
+                    it a success, even in the face of unforeseen circumstances, and we look forward to seeing you at Neerathon 2023.
+                  </p>
+
+                  <div className="text-end">
+                    Tavish Bhardwaj 
+                    (Convenor) 
+                    <div>
+                      9560218478
+                    </div>
+                  </div>
+                </div>
+              </Alert>
+            }
+          </div>
+        }
 
         {time.difference > 0 &&
           <Row className="my-5 text-center">
@@ -164,8 +205,8 @@ function Home() {
           </Row>
         }
 
-        <Row id="details">
-          <p className="display-4">Event Details</p>
+        <Row id="details" className="my-5">
+          <h1 className="display-4 mb-3">Event Details</h1>
           <Nav justify variant="tabs">
             <Nav.Item>
               <Nav.Link onClick={() => setDetailsTab(0)} eventKey="link-0">Date</Nav.Link>
@@ -180,23 +221,20 @@ function Home() {
               <Nav.Link onClick={() => setDetailsTab(3)} eventKey="link-3">Prizes</Nav.Link>
             </Nav.Item>
           </Nav>
-        </Row>
-        
-        <Row>
+          <hr />
           {details}
         </Row>
 
-        <hr className="my-5" />
-
-        <Row id="faq">
-          <p className="display-4 mb-3">Frequently Asked Questions</p>
+        <Row id="faq" className="mb-5">
+          <h1 className="display-4 mb-3">Frequently Asked Questions</h1>
+          <hr />
           <Accordion defaultActiveKey={['0']} alwaysOpen className="mb-3">
             <Accordion.Item eventKey="0">
               <Accordion.Header>What is Neerathon?</Accordion.Header>
               <Accordion.Body>
                 Neerathon is a run for water conservation and has been held by the Wildlife 
                 Awareness Conservation Club for the past five years in an effort to raise 
-                awareness regarding water conservation and to change peoples view regarding 
+                awareness regarding water conservation and to change people's view regarding 
                 the situation of conservation with the idea of sustainability.
               </Accordion.Body>
             </Accordion.Item>
@@ -212,21 +250,24 @@ function Home() {
             <Accordion.Item eventKey="2">
               <Accordion.Header>How can I contribute?</Accordion.Header>
               <Accordion.Body>
-                You can contribute by being a participant in the run! The event is one of a kind and is open for people from all walks of life.
+                You can contribute by being a participant in the run! The event is one of a 
+                kind and is open for people from all walks of life.
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
-          <p className="text-muted">Don't see your question here? It's okay, you can always reach out to us through our socials!</p>
+          <p className="text-muted">
+            Don't see your question here? It's okay, you can always reach out to us through our socials!
+          </p>
         </Row>
-        
-        <hr className="my-5" />
                 
         <Row id="about">
-          <p className="display-4 mb-3">About the site</p>
+          <h1 className="display-4 mb-3">About the site</h1>
+          <hr />
           <p className="lead">
-            This website was developed using React.js and is hosted on Vercel. The code base for the website is open source and is available on GitHub. 
-            If you like what you see, then you could <a href="https://github.com/Trev241/neerathon">star</a> the repository using the button below! You can
-            also <a href="https://github.com/Trev241">follow</a> and check out my other stuff as well.
+            This website was developed using React.js and is hosted on Vercel. The code base for the website is 
+            open source and is available on GitHub. If you like what you see, do drop
+            a <a href="https://github.com/Trev241/neerathon">star</a> on the repository using the button below! 
+            You can also <a href="https://github.com/Trev241">follow</a> and check out my other stuff as well.
           </p>
           <div className="d-flex">
             <div className="me-2">
