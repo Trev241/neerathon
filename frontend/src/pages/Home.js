@@ -15,10 +15,11 @@ import './Home.css'
 
 function Home() {
   const [time, setTime] = useState({
-    seconds: "",
-    minutes: "",
-    hours: "",
-    days: ""
+    difference: 0,
+    seconds: 0,
+    minutes: 0,
+    hours: 0,
+    days: 0
   })
   const [detailsTab, setDetailsTab] = useState(0)
 
@@ -26,7 +27,7 @@ function Home() {
 
   // Find time remaining and commence countdown when component is mounted
   useEffect(() => {
-    const interval = setInterval(() => formatTime(new Date(2023, 1, 26) - Date.now()), 1000)
+    const interval = setInterval(() => formatTime(new Date(2023, 1, 26, 5, 30) - Date.now()), 1000)
     return () => clearInterval(interval)
   }, [])
 
@@ -39,6 +40,7 @@ function Home() {
     const days = Math.floor(difference / (1000 * 60 * 60 * 24))
 
     setTime({
+      difference: difference,
       seconds: seconds,
       minutes: minutes,
       hours: hours,
@@ -143,24 +145,24 @@ function Home() {
           </Col>
         </Row>
 
-        <Row className="my-5 text-center">
-          <Col>
-            <div className="bg-dark text-white rounded py-3">
-              <p className="display-2 mb-1">
-                {
-                  (time.seconds === "" && time.minutes === "" && time.hours === "" && time.days === "") ? (
-                    <Placeholder className="w-50" />
-                  ) : (
-                    <>
-                      {time.days}d {time.hours}h {time.minutes}m {time.seconds}s
-                    </>
-                  )
-                }
-              </p>
-              <p className="display-6">before the big day</p>
-            </div>
-          </Col>
-        </Row>
+        {time.difference > 0 &&
+          <Row className="my-5 text-center">
+            <Col>
+              <div className="bg-dark text-white rounded py-3">
+                <p className="display-2 mb-1">
+                  {(time.seconds === 0 && time.minutes === 0 && time.hours === 0 && time.days === 0) ? (
+                      <Placeholder className="w-50" />
+                    ) : (
+                      <>
+                        {time.days}d {time.hours}h {time.minutes}m {time.seconds}s
+                      </>
+                  )}
+                </p>
+                <p className="display-6">before the event</p>
+              </div>
+            </Col>
+          </Row>
+        }
 
         <Row id="details">
           <p className="display-4">Event Details</p>
